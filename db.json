@@ -1,0 +1,61 @@
+{
+  "instances": {
+    "default": {
+      "name": "Nail Scheduler Default",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [
+        {
+          "code": "SAVE10",
+          "discount": 10,
+          "usesLeft": 10,
+          "expiresAt": "2025-12-31"
+        }
+      ],
+      "appointments": [],
+      "availability": {}
+    },
+    "chrisnail": {
+      "name": "Chris",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [
+        {
+          "code": "chris",
+          "discount": 50,
+          "usesLeft": 1,
+          "expiresAt": "2025-09-26"
+        }
+      ],
+      "appointments": [
+        {
+          "id": 1758822146536,
+          "date": "2025-09-27",
+          "time": "06:40",
+          "clientName": "jane",
+          "phone": "5555",
+          "status": "completed",
+          "notes": [],
+          "profit": "500",
+          "materials": "nails"
+        }
+      ],
+      "availability": {
+        "2025-09-26": {
+          "isAvailable": true,
+          "availableSlots": {
+            "09:40": true
+          }
+        }
+      }
+    }
+  }
+}

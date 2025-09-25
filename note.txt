@@ -1,0 +1,60 @@
+You respond to all questions in the following way-
+<thinking>
+In this section you understand the problem and develop a plan to solve the problem.
+
+For easy problems-
+Make a simple plan and use COMPONENTS
+For moderate to hard problems-
+1. Devise a step-by-step plan to solve the problem. (don't actually start solving yet, just make a plan)
+2. Use Chain of Thought  reasoning to work through the plan and write the full solution within thinking.
+
+When solving hard problems, you have to use <reflection> </reflection> tags whenever you write a step or solve a part that is complex and in the reflection tag you check the previous thing to do, if it is correct you continue, if it is incorrect you self correct and continue on the new correct path by mentioning the corrected plan or statement.
+Always do reflection after making the plan to see if you missed something and also after you come to a conclusion use reflection to verify
+
+</thinking>
+
+<output>
+In this section, provide the complete answer for the user based on your thinking process. Do not refer to the thinking tag. Include all relevant information and keep the response somewhat verbose, the user will not see what is in the thinking tag so make sure all user relevant info is in here. Do not refer to the thinking tag.
+</output>  
+
+Please, add auto scrolling for the OPENING UPCOMING APPOINMENT OBJECT has to scroll the distance relative to item animation. 
+Apply the same for CREATE APPOINTMENT SELECT TIME WIDGET ANIMATION.
+
+Make sure You Will not remove any existing used features, it is imperative..
+Fix it please and return fully updated file version ONLY as required. Ready to copy and paste.
+Be careful with your response, your app response generation interface, it automatically formats it the same so it will cause errors.
+No, as you are generating the code it gets changed again to wrong syntax.
+As yourself suggested: The styled-components are now properly formatted with backticks (`) instead of parentheses, DO NOT ALLOW FORMATTING QHEN GENERATING STYLED COMPONENTS. 
+
+You still doing the same, let me share with you a snippet where you have understood, DO NOT ALLOW FORMATTING WHEN GENERATING STYLED COMPONENTS : 
+
+I understand the issues you've pointed out. I'll address each of them and provide the updated files with the necessary fixes. I'll make sure to use the correct syntax for styled-components with backticks. Here are the updated files:
+File: components/ProjectShowcase.jsx
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useParams, useNavigate } from 'react-router-dom';
+import TaskManager from '../projects/TaskManager';
+import Calculator from '../projects/Calculator';
+import WeatherApp from '../projects/WeatherApp';
+import { FaChevronLeft, FaChevronRight, FaCode } from 'react-icons/fa';
+const ShowcaseContainer = styled(motion.div)  display: flex;   flex-direction: column;   align-items: center;   min-height: calc(100vh - 60px);   padding: 2rem;;
+const ProjectView = styled(motion.div)  width: 100%;   max-width: 800px;   background-color: ${({ theme }) => theme.colors.cardBackground};   border-radius: 12px;   padding: 2rem;   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);;
+const Title = styled(motion.h2)  font-size: 2rem;   margin-bottom: 2rem;   text-align: center;;
+const NavigationArrow = styled(motion.button)  position: fixed;   top: 50%;   background: none;   border: none;   font-size: 2rem;   color: ${({ theme }) => theme.colors.primary};   cursor: pointer;   z-index: 10;   &.left {     left: 1rem;   }   &.right {     right: 1rem;   };
+const CodeButton = styled(motion.button)  display: flex;   align-items: center;   justify-content: center;   padding: 0.5rem 1rem;   background-color: ${({ theme }) => theme.colors.primary};   color: white;   border: none;   border-radius: 4px;   cursor: pointer;   font-weight: bold;   margin-top: 1rem;;
+const CodeIcon = styled(FaCode)  margin-right: 0.5rem;;
+const CodeCurtain = styled(motion.div)  position: fixed;   top: 0;   left: 0;   right: 0;   bottom: 0;   background-color: ${({ theme }) => theme.colors.background};   z-index: 100;   display: flex;   flex-direction: column;   align-items: center;   justify-content: center;   padding: 2rem;   overflow-y: auto;;
+const CodeContent = styled.pre  background-color: ${({ theme }) => theme.colors.cardBackground};   padding: 1rem;   border-radius: 8px;   width: 100%;   max-width: 800px;   overflow-x: auto;;
+const CloseButton = styled(motion.button)`
+position: absolute;
+top: 1rem;
+right: 1rem;
+background: none;
+border: none;
+font-size: 1.5rem;
+color CopyRetryEI understand the issues you've pointed out. I'll address each of them and provide the updated files with the necessary fixes. I'll make sure to use the correct syntax for styled-components with backticks. Here are the updated files:
+
+
+from topbar nail trends and appointment confirmation NAIL trend link.
+It has to redirect to HERO page at BOTTOM in full coordenates.

@@ -1,0 +1,13 @@
+domain: 
+nailsnow.com/INSTANCE
+
+al configurar una instancia, permite customizar: 
+el nombre "Nail Scheduler" por un nombre particular.
+las categorias de servicios y la informacion de los servicios (nombre, descripcion, duracion y costo)
+ 
+Tiempo real entre el admin dashboard y el user interface.
+
+Admin dashboard permite enviar recibos o facturas de pago a traves de whatsapp una vez marcada la cita como completada.
+Admin dashboard tiene un sistema de inventario, donde el usuario puede definir la categoria 
+(esmaltes(gel color), estructura(nail tips)) y las cantidades del producto.
+Admin dashboard tiene en sistema de la economia del negocio(ganancias, gastos, impuestos, etc).
