@@ -5,6 +5,7 @@ const defaultData = {
   instances: {
     "default": {
       name: "Nail Scheduler Default",
+      appName: "Nail Scheduler",
       admins: [{ username: 'admin', password: 'password' }],
       coupons: [
         { code: 'SAVE10', discount: 10, usesLeft: 10, expiresAt: '2025-12-31' }
@@ -41,6 +42,7 @@ const getInstanceData = async (instanceId) => {
     if (!db.data.instances[instanceId]) {
         db.data.instances[instanceId] = {
             name: `${instanceId}'s Scheduler`,
+            appName: "Nail Scheduler", // Default app name
             admins: [{ username: 'admin', password: 'password' }],
             coupons: [],
             appointments: [],

@@ -13,7 +13,7 @@ router.get('/instances', requireSuperAdmin, async (req, res) => {
 });
 
 router.post('/instances', requireSuperAdmin, async (req, res) => {
-    const { id, name } = req.body;
+    const { id, name, appName } = req.body;
     if (!id || !name) {
         return res.status(400).json({ message: 'Instance ID and name are required.' });
     }
@@ -23,8 +23,11 @@ router.post('/instances', requireSuperAdmin, async (req, res) => {
     }
     const instanceData = await getInstanceData(id);
     instanceData.name = name;
+    if (appName) {
+        instanceData.appName = appName;
+    }
     await db.write();
-    res.status(201).json({ id, name });
+    res.status(201).json({ id, name, appName: instanceData.appName });
 });
 
 router.get('/instances/:instanceId/stats', requireSuperAdmin, async (req, res) => {
