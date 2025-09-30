@@ -56,6 +56,71 @@
           }
         }
       }
+    },
+    "test-salon": {
+      "name": "My Test Salon",
+      "appName": "Test Salon App",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [],
+      "appointments": [],
+      "availability": {}
+    },
+    "test-salon-1759274873": {
+      "name": "My Test Salon",
+      "appName": "Test Salon App",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [],
+      "appointments": [],
+      "availability": {}
+    },
+    "test-salon-1759274972": {
+      "name": "My Test Salon",
+      "appName": "Test Salon App",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [],
+      "appointments": [],
+      "availability": {}
+    },
+    "test-salon-1759275220": {
+      "name": "My Test Salon",
+      "appName": "Test Salon App",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [],
+      "appointments": [],
+      "availability": {}
+    },
+    "test-salon-1759275339": {
+      "name": "My Test Salon",
+      "appName": "Test Salon App",
+      "admins": [
+        {
+          "username": "admin",
+          "password": "password"
+        }
+      ],
+      "coupons": [],
+      "appointments": [],
+      "availability": {}
     }
   }
 }

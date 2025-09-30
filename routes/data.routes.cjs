@@ -15,6 +15,14 @@ const instanceMiddleware = async (req, res, next) => {
 
 router.use(instanceMiddleware);
 
+// --- Public Instance Data ---
+router.get('/public-data', (req, res) => {
+    res.json({
+        name: req.instanceData.name,
+        appName: req.instanceData.appName || 'Nail Scheduler'
+    });
+});
+
 // --- Coupon Management ---
 router.get('/coupons', requireAdmin, (req, res) => {
     res.json(req.instanceData.coupons);
