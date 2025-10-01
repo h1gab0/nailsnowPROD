@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useInstance } from '../context/InstanceContext';
 
@@ -93,23 +93,20 @@ const LoginComponent = () => {
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const isSuperAdminLogin = location.pathname === '/login';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      // Use 'default' for instanceId on the super admin login page to ensure correct API endpoint is called
-      const user = await login(username, password, isSuperAdminLogin ? 'default' : instanceId);
+      // Pass the instanceId to the login function.
+      // The login function will decide whether to perform a super admin or instance admin login.
+      const user = await login(username, password, instanceId);
 
-      const from = location.state?.from?.pathname;
       if (user.isSuperAdmin) {
-        navigate(from || '/super-admin', { replace: true });
+        navigate('/super-admin');
       } else {
-        navigate(from || `/${user.instanceId}/admin`, { replace: true });
+        navigate(`/${user.instanceId}/admin`);
       }
     } catch (error) {
       setError(error.message || 'Invalid credentials. Please try again.');
@@ -120,7 +117,7 @@ const LoginComponent = () => {
   return (
     <LoginWrapper>
       <LoginContainer>
-        <Title>{isSuperAdminLogin ? 'Super Admin Login' : `${instanceId} Admin Login`}</Title>
+        <Title>{instanceId && instanceId !== 'default' ? `${instanceId} Admin Login` : 'Super Admin Login'}</Title>
         <Form onSubmit={handleSubmit}>
           <InputGroup>
             <Input

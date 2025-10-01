@@ -37,8 +37,8 @@ app.use((err, req, res, next) => {
 const PORT = 3000;
 const startServer = async () => {
     await initDb();
-    app.listen(PORT, '127.0.0.1', () => {
-      console.log(`Server running on http://127.0.0.1:${PORT}`);
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
       console.log(`Super Admin: ${process.env.SUPER_ADMIN_USERNAME}`);
     });
 };

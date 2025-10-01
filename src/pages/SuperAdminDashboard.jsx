@@ -101,7 +101,7 @@ const Button = styled.button`
 
 const SuperAdminDashboard = () => {
     const [instances, setInstances] = useState([]);
-    const [newInstance, setNewInstance] = useState({ id: '', name: '', appName: '' });
+    const [newInstance, setNewInstance] = useState({ id: '', name: '' });
 
     useEffect(() => {
         const fetchInstances = async () => {
@@ -145,7 +145,7 @@ const SuperAdminDashboard = () => {
                 const createdInstance = await response.json();
                 setInstances(prev => [...prev, createdInstance]);
                 alert(`Instance "${createdInstance.name}" created successfully!\nDefault admin credentials:\nUsername: admin\nPassword: password`);
-                setNewInstance({ id: '', name: '', appName: '' });
+                setNewInstance({ id: '', name: '' });
             } else {
                 const errorData = await response.json();
                 alert(`Failed to create instance: ${errorData.message}`);
@@ -195,13 +195,6 @@ const SuperAdminDashboard = () => {
                         name="id"
                         placeholder="Instance URL ID (e.g., janes-nails)"
                         value={newInstance.id}
-                        onChange={handleInputChange}
-                    />
-                    <Input
-                        type="text"
-                        name="appName"
-                        placeholder="Custom App Name (e.g., Nail Creations)"
-                        value={newInstance.appName}
                         onChange={handleInputChange}
                     />
                     <Button type="submit">Create Instance</Button>
