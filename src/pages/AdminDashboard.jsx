@@ -6,7 +6,7 @@ import { useInstance } from '../context/InstanceContext';
 import AdminCalendar from '../components/AdminCalendar';
 import { format, parseISO, isBefore, startOfDay, set, isAfter, isSameMonth, startOfToday } from 'date-fns';
 import CollapsibleAppointment from '../components/CollapsibleAppointment';
-import CouponManagement from '../components/CouponManagement';
+import CouponManagement from './CouponManagement';
 
 const DashboardContainer = styled.div`
   max-width: 1200px;
