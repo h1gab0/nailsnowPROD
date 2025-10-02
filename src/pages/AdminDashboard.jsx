@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from '../context/AuthContext';
 import { useInstance } from '../context/InstanceContext';
-import AdminCalendar from '../components/AdminCalendar';
+import AdminCalendar from './AdminCalendar';
 import { format, parseISO, isBefore, startOfDay, set, isAfter, isSameMonth, startOfToday } from 'date-fns';
-import CollapsibleAppointment from '../components/CollapsibleAppointment';
+import CollapsibleAppointment from './CollapsibleAppointment';
 import CouponManagement from './CouponManagement';
 
 const DashboardContainer = styled.div`
