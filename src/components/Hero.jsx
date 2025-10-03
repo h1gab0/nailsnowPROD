@@ -118,7 +118,7 @@ const itemVariants = {
 };
 
 function Hero() {
-  const { instanceId } = useInstance();
+  const { instanceId, instance } = useInstance();
   const navigate = useNavigate();
   const [clickCount, setClickCount] = useState(0);
   const [lastClickTime, setLastClickTime] = useState(0);
@@ -158,7 +158,7 @@ function Hero() {
           onClick={handleTitleClick}
           style={{ cursor: 'default' }}
         >
-          Elegant Touch Nail Salon
+          {instance?.name}
         </Title>
         <Subtitle variants={itemVariants}>
           Where luxury meets artistry for your hands and feet

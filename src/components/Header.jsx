@@ -204,7 +204,7 @@ const MobileScheduleButton = styled(Link)`
 `;
 
 function Header() {
-  const { instanceId } = useInstance();
+  const { instanceId, instance } = useInstance();
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -245,7 +245,9 @@ function Header() {
   return (
     <StyledHeader>
       <Nav>
-        <Logo to={base || '/'} onClick={scrollToTop}>Nail Salon Scheduler</Logo>
+        <Logo to={base || '/'} onClick={scrollToTop}>
+          {instance?.name || 'Nail Salon Scheduler'}
+        </Logo>
         <MenuButton onClick={toggleMenu} aria-label="Toggle menu">
           {isMenuOpen ? '✕' : '☰'}
         </MenuButton>
