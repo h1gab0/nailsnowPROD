@@ -27,15 +27,24 @@ router.post('/instances', requireSuperAdmin, async (req, res) => {
     res.status(201).json({ id, name });                                                                                                                               
 });                                                                                                                                                                   
                                                                                                                                                                       
-router.get('/instances/:instanceId/stats', requireSuperAdmin, async (req, res) => {                                                                                   
-    await db.read();                                                                                                                                                  
-    const instanceData = getInstanceData(req.params.instanceId);                                                                                                      
-    await db.write();                                                                                                                                                 
-    const stats = {                                                                                                                                                   
-        appointments: instanceData.appointments.length,                                                                                                               
-        coupons: instanceData.coupons.length,                                                                                                                         
-    };                                                                                                                                                                
-    res.json(stats);   
+router.get('/instances/:instanceId/stats', requireSuperAdmin, async (req, res) => {
+    await db.read();
+    const instanceData = getInstanceData(req.params.instanceId);
+    const stats = {
+        appointments: instanceData.appointments.length,
+        coupons: instanceData.coupons.length,
+    };
+    res.json(stats);
+});
+
+router.get('/instances/:instanceId', async (req, res) => {
+    await db.read();
+    const instance = db.data.instances[req.params.instanceId];
+    if (instance) {
+        res.json({ id: req.params.instanceId, name: instance.name });
+    } else {
+        res.status(404).json({ message: 'Instance not found' });
+    }
 });
 
 module.exports = router;
