@@ -21,7 +21,7 @@ export const InstanceProvider = ({ children }) => {
             if (!id) return;
             setLoading(true);
             try {
-                const response = await axios.get(`http://localhost:3000/api/instances/${id}`);
+                const response = await axios.get(`/api/instances/${id}`);
                 setInstance(response.data);
             } catch (err) {
                 setError(err);
