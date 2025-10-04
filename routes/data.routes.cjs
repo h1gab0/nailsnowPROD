@@ -56,6 +56,23 @@ router.delete('/coupons/:code', requireAdmin, async (req, res) => {
     res.status(204).send();
 });
 
+router.get('/coupons/stats', requireAdmin, (req, res) => {
+    const allCoupons = req.instanceData.coupons;
+    const allAppointments = req.instanceData.appointments;
+
+    const totalCouponTypes = allCoupons.length;
+    const couponsRedeemed = allAppointments.filter(a => a.couponCode).length;
+    const couponsAwarded = allAppointments.filter(a => a.awardedCoupon).length;
+    const activeCouponTypes = allCoupons.filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt)).length;
+
+    res.json({
+        totalCouponTypes,
+        couponsRedeemed,
+        couponsAwarded,
+        activeCouponTypes,
+    });
+});
+
 // --- Availability ---
 router.get('/availability/dates', (req, res) => {
     const availableDates = Object.keys(req.instanceData.availability).filter(date => {
@@ -111,20 +128,30 @@ router.post('/appointments', async (req, res) => {
         return res.status(400).json({ message: 'Missing required appointment data' });
     }
 
+    // Handle coupon redemption if a code is provided
     if (couponCode) {
         const couponIndex = req.instanceData.coupons.findIndex(c => c.code === couponCode);
         if (couponIndex === -1) return res.status(400).json({ message: 'Invalid coupon code' });
 
         const coupon = req.instanceData.coupons[couponIndex];
         if (new Date() > new Date(coupon.expiresAt)) return res.status(400).json({ message: 'Coupon has expired' });
-        if (coupon.usesLeft <= 0) return res.status(400).json({ message: 'Coupon has already been used' });
+        if (coupon.usesLeft <= 0) return res.status(400).json({ message: 'Coupon has no uses left' });
 
         req.instanceData.coupons[couponIndex].usesLeft -= 1;
     }
 
     const newAppointment = { id: Date.now(), date, time, clientName, phone, status, image, couponCode, notes: [] };
+
+    // Award a new coupon if available
+    const availableCoupons = req.instanceData.coupons.filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt));
+    if (availableCoupons.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableCoupons.length);
+        newAppointment.awardedCoupon = availableCoupons[randomIndex];
+    }
+
     req.instanceData.appointments.push(newAppointment);
 
+    // Mark the time slot as unavailable
     if (req.instanceData.availability[date] && req.instanceData.availability[date].availableSlots[time]) {
         req.instanceData.availability[date].availableSlots[time] = false;
     }

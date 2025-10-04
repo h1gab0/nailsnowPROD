@@ -155,6 +155,18 @@ const AppointmentConfirmation = () => {
           </>
         )}
 
+        {appointment.awardedCoupon && (
+            <div style={{ marginTop: '2rem' }}>
+                <Title as="h2" style={{ fontSize: '1.5rem', color: 'inherit' }}>You've Earned a Coupon!</Title>
+                <Details>Use this code on your next visit to get a discount.</Details>
+                <CouponCard
+                    code={appointment.awardedCoupon.code}
+                    discount={appointment.awardedCoupon.discount}
+                    expiresAt={appointment.awardedCoupon.expiresAt}
+                />
+            </div>
+        )}
+
         <TrendButton
           onClick={handleTrendClick}
           whileHover={{ translateY: -4 }}

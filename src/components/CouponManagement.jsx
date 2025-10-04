@@ -10,6 +10,34 @@ const CouponContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
+const StatsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+`;
+
+const StatCard = styled.div`
+  background-color: ${({ theme }) => theme.colors.background};
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+`;
+
+const StatValue = styled.p`
+  font-size: 2rem;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors.primary};
+  margin: 0;
+`;
+
+const StatLabel = styled.p`
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.colors.text};
+  margin: 0;
+`;
+
 const SectionHeader = styled.h3`
   text-align: center;
   margin-top: 2rem;
@@ -107,6 +135,12 @@ const UpdateUsesContainer = styled.div`
 
 const CouponManagement = ({ instanceId }) => {
   const [coupons, setCoupons] = useState([]);
+  const [stats, setStats] = useState({
+    totalCouponTypes: 0,
+    couponsRedeemed: 0,
+    couponsAwarded: 0,
+    activeCouponTypes: 0,
+  });
   const [newCoupon, setNewCoupon] = useState({
     code: '',
     discount: '',
@@ -129,6 +163,22 @@ const CouponManagement = ({ instanceId }) => {
     };
     fetchCoupons();
   }, [instanceId]);
+
+  useEffect(() => {
+    const fetchCouponStats = async () => {
+        if (!instanceId) return;
+        try {
+            const response = await fetch(`/api/${instanceId}/coupons/stats`, { credentials: 'include' });
+            if (response.ok) {
+                const data = await response.json();
+                setStats(data);
+            }
+        } catch (error) {
+            console.error('Error fetching coupon stats:', error);
+        }
+    };
+    fetchCouponStats();
+  }, [instanceId, coupons]);
 
   const handleAddCoupon = async (e) => {
     e.preventDefault();
@@ -190,6 +240,24 @@ const CouponManagement = ({ instanceId }) => {
   return (
     <CouponContainer>
       <SubHeader>Coupon Management</SubHeader>
+      <StatsContainer>
+        <StatCard>
+            <StatValue>{stats.totalCouponTypes}</StatValue>
+            <StatLabel>Total Types</StatLabel>
+        </StatCard>
+        <StatCard>
+            <StatValue>{stats.activeCouponTypes}</StatValue>
+            <StatLabel>Active Types</StatLabel>
+        </StatCard>
+        <StatCard>
+            <StatValue>{stats.couponsAwarded}</StatValue>
+            <StatLabel>Awarded</StatLabel>
+        </StatCard>
+        <StatCard>
+            <StatValue>{stats.couponsRedeemed}</StatValue>
+            <StatLabel>Redeemed</StatLabel>
+        </StatCard>
+      </StatsContainer>
       <CouponForm onSubmit={handleAddCoupon}>
         <Input
           type="text"
