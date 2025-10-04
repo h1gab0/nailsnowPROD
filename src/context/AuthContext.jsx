@@ -40,10 +40,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password, instanceId) => {
-    // If the instanceId is 'default' or not provided from a login form that is not instance-specific,
-    // we assume it's a super admin login attempt.
-    const isSuperAdminLogin = !instanceId || instanceId === 'default';
-    const url = isSuperAdminLogin ? '/api/admin/login' : `/api/${instanceId}/login`;
+    // If an instanceId is provided, it's an instance login. Otherwise, it's a super admin login.
+    const url = instanceId ? `/api/${instanceId}/login` : '/api/admin/login';
 
     const response = await fetch(url, {
       method: 'POST',

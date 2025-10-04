@@ -47,9 +47,9 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    // If there's an instanceId, redirect to that instance's login page.
-    // Otherwise, redirect to the super admin login.
-    const loginPath = instanceId && instanceId !== 'default' ? `/${instanceId}/login` : '/login';
+    // If there's an instanceId (even 'default'), redirect to that instance's login page.
+    // Otherwise, redirect to the top-level (super admin) login.
+    const loginPath = instanceId ? `/${instanceId}/login` : '/login';
     return <Navigate to={loginPath} replace />;
   }
 

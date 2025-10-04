@@ -118,7 +118,7 @@ const itemVariants = {
 };
 
 function Hero() {
-  const { instanceId, instance } = useInstance();
+  const { instanceId, instance, loading } = useInstance();
   const navigate = useNavigate();
   const [clickCount, setClickCount] = useState(0);
   const [lastClickTime, setLastClickTime] = useState(0);
@@ -158,7 +158,7 @@ function Hero() {
           onClick={handleTitleClick}
           style={{ cursor: 'default' }}
         >
-          {instance?.name}
+          {loading ? 'Loading...' : instance?.name || 'Nail Salon Scheduler'}
         </Title>
         <Subtitle variants={itemVariants}>
           Where luxury meets artistry for your hands and feet
