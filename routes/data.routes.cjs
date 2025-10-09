@@ -16,6 +16,20 @@ const instanceMiddleware = async (req, res, next) => {
 router.use(instanceMiddleware);
 
 // --- Coupon Management ---
+
+// Public endpoint to get available, non-sensitive coupon data
+router.get('/public/coupons', (req, res) => {
+    const allCoupons = req.instanceData.coupons;
+    const availableCoupons = allCoupons
+        .filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt))
+        .map(c => ({ // Return only non-sensitive data
+            code: c.code,
+            discount: c.discount,
+            expiresAt: c.expiresAt,
+        }));
+    res.json(availableCoupons);
+});
+
 router.get('/coupons', requireAdmin, (req, res) => {
     res.json(req.instanceData.coupons);
 });
@@ -146,8 +160,25 @@ router.post('/appointments', async (req, res) => {
     if (!isAdminCreation) {
         const availableCoupons = req.instanceData.coupons.filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt));
         if (availableCoupons.length > 0) {
+            // Select a random coupon to award
             const randomIndex = Math.floor(Math.random() * availableCoupons.length);
-            newAppointment.awardedCoupon = availableCoupons[randomIndex];
+            const awardedCouponCode = availableCoupons[randomIndex].code;
+
+            // Find the coupon in the main list and decrement its uses
+            const couponIndex = req.instanceData.coupons.findIndex(c => c.code === awardedCouponCode);
+            if (couponIndex !== -1) {
+                const couponToAward = req.instanceData.coupons[couponIndex];
+
+                // Assign a cleaner, smaller object to the appointment
+                newAppointment.awardedCoupon = {
+                    code: couponToAward.code,
+                    discount: couponToAward.discount,
+                    expiresAt: couponToAward.expiresAt
+                };
+
+                // Decrement the uses left for the original coupon in the database
+                req.instanceData.coupons[couponIndex].usesLeft -= 1;
+            }
         }
     }
 

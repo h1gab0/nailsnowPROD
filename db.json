@@ -17,42 +17,29 @@
         }
       ],
       "appointments": [],
-      "availability": {}
-    },
-    "chrisnail": {
-      "name": "Chris",
-      "admins": [
-        {
-          "username": "admin",
-          "password": "password"
-        }
-      ],
-      "coupons": [
-        {
-          "code": "chris",
-          "discount": 50,
-          "usesLeft": 1,
-          "expiresAt": "2025-09-26"
-        }
-      ],
-      "appointments": [
-        {
-          "id": 1758822146536,
-          "date": "2025-09-27",
-          "time": "06:40",
-          "clientName": "jane",
-          "phone": "5555",
-          "status": "completed",
-          "notes": [],
-          "profit": "500",
-          "materials": "nails"
-        }
-      ],
       "availability": {
-        "2025-09-26": {
+        "2025-10-20": {
           "isAvailable": true,
           "availableSlots": {
-            "09:40": true
+            "10:00": true,
+            "11:00": true,
+            "14:00": true
+          }
+        },
+        "2025-10-21": {
+          "isAvailable": true,
+          "availableSlots": {
+            "10:00": true,
+            "11:00": true,
+            "14:00": true,
+            "15:00": true
+          }
+        },
+        "2025-10-22": {
+          "isAvailable": true,
+          "availableSlots": {
+            "09:00": true,
+            "10:00": true
           }
         }
       }
