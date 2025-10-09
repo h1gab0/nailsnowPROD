@@ -26,8 +26,8 @@ const loadingVariants = {
   exit: { opacity: 0, y: 20 }
 };
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+const ProtectedRoute = ({ children, superAdminOnly = false }) => {
+  const { user, isAuthenticated, loading } = useAuth();
   const { instanceId } = useInstance();
 
   if (loading) {
@@ -47,10 +47,14 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    // If there's an instanceId (even 'default'), redirect to that instance's login page.
-    // Otherwise, redirect to the top-level (super admin) login.
     const loginPath = instanceId ? `/${instanceId}/login` : '/login';
     return <Navigate to={loginPath} replace />;
+  }
+
+  // If the route is for super admins only, ensure the user has the correct role.
+  if (superAdminOnly && !user.isSuperAdmin) {
+    // If a non-super admin tries to access a super admin page, send them to their dashboard.
+    return <Navigate to={`/${user.instanceId}/admin`} replace />;
   }
 
   return children;

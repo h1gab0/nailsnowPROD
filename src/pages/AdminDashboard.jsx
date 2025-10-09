@@ -735,7 +735,8 @@ function AdminDashboard() {
       time: appointmentTime,
       clientName: newAppointment.clientName,
       phone: newAppointment.phone,
-      status: 'scheduled'
+      status: 'scheduled',
+      isAdminCreation: true
     };
 
     try {

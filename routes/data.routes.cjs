@@ -122,7 +122,7 @@ router.get('/appointments/:id', (req, res) => {
 });
 
 router.post('/appointments', async (req, res) => {
-    const { date, time, clientName, phone, status, image, couponCode } = req.body;
+    const { date, time, clientName, phone, status, image, couponCode, isAdminCreation } = req.body;
 
     if (!date || !time || !clientName || !phone) {
         return res.status(400).json({ message: 'Missing required appointment data' });
@@ -142,11 +142,13 @@ router.post('/appointments', async (req, res) => {
 
     const newAppointment = { id: Date.now(), date, time, clientName, phone, status, image, couponCode, notes: [] };
 
-    // Award a new coupon if available
-    const availableCoupons = req.instanceData.coupons.filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt));
-    if (availableCoupons.length > 0) {
-        const randomIndex = Math.floor(Math.random() * availableCoupons.length);
-        newAppointment.awardedCoupon = availableCoupons[randomIndex];
+    // Award a new coupon if available and not an admin creation
+    if (!isAdminCreation) {
+        const availableCoupons = req.instanceData.coupons.filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt));
+        if (availableCoupons.length > 0) {
+            const randomIndex = Math.floor(Math.random() * availableCoupons.length);
+            newAppointment.awardedCoupon = availableCoupons[randomIndex];
+        }
     }
 
     req.instanceData.appointments.push(newAppointment);
