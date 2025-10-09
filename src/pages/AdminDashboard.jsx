@@ -414,8 +414,12 @@ function AdminDashboard() {
   const [modalClockVisible, setModalClockVisible] = useState(false);
   const timeWidgetRef = useRef(null);
   const appointmentListRef = useRef(null);
+  const [hasNativeTimePicker, setHasNativeTimePicker] = useState(false);
 
   useEffect(() => {
+    const input = document.createElement('input');
+    input.type = 'time';
+    setHasNativeTimePicker(input.type === 'time');
     const verifyAdmin = async () => {
       try {
         const response = await fetch('/api/admin/verify', {
@@ -815,12 +819,14 @@ function AdminDashboard() {
       const finalTime = set(selectedTime, { hours });
       setNewTimeSlot(format(finalTime, 'HH:mm'));
       setShowClock(false);
+      setModalClockVisible(false);
       setClockPhase('hour');
     }
   };
 
   const handleClockCancel = () => {
     setShowClock(false);
+    setModalClockVisible(false);
     setNewTimeSlot('');
     setClockPhase('hour');
   };
@@ -1036,7 +1042,6 @@ function AdminDashboard() {
                     checked={timeSelectionType === 'new'}
                     onChange={(e) => {
                       setTimeSelectionType(e.target.value);
-                      setModalClockVisible(true);
                     }}
                   />
                   Create New Time Slot
@@ -1058,40 +1063,68 @@ function AdminDashboard() {
                   }
                 </ModalSelect>
               ) : (
-                modalClockVisible && (
-                  <ClockContainer>
-                    <ClockInstruction>
-                      {clockPhase === 'hour' ? 'Select hour' : 'Select minute'}
-                    </ClockInstruction>
-                    <TimeDisplay>{format(selectedTime, 'hh:mm')}</TimeDisplay>
-                    <AMPMSwitch>
-                      <AMPMLabel $active={isAM}>AM</AMPMLabel>
-                      <Switch $isAM={isAM} onClick={toggleAMPM} />
-                      <AMPMLabel $active={!isAM}>PM</AMPMLabel>
-                    </AMPMSwitch>
-                    <ClockFace ref={clockRef} onClick={handleClockClick}>
-                      <HourHand
-                        $angle={selectedTime.getHours() * 30 + selectedTime.getMinutes() * 0.5}
-                        $show={clockPhase === 'hour'}
-                      />
-                      <MinuteHand
-                        $angle={selectedTime.getMinutes() * 6}
-                        $show={clockPhase === 'minute'}
-                      />
-                      {[...Array(12)].map((_, index) => (
-                        <ClockNumber key={index} $rotation={index * 30}>
-                          {index === 0 ? 12 : index}
-                        </ClockNumber>
-                      ))}
-                    </ClockFace>
-                    <div>
-                      <ClockButton onClick={handleClockConfirm}>
-                        {clockPhase === 'hour' ? 'Next' : 'Confirm'}
-                      </ClockButton>
-                      <ClockButton onClick={handleClockCancel}>Cancel</ClockButton>
+                <div>
+                  {!modalClockVisible && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <Button onClick={() => setModalClockVisible(true)}>
+                        {newTimeSlot ? 'Change Time' : 'Select Time'}
+                      </Button>
+                      {newTimeSlot && <NonClickableTimeDisplay>{newTimeSlot}</NonClickableTimeDisplay>}
                     </div>
-                  </ClockContainer>
-                )
+                  )}
+                  {modalClockVisible &&
+                    (hasNativeTimePicker ? (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <TimeInputWrapper>
+                          <TimeInput
+                            type="time"
+                            value={newTimeSlot}
+                            onChange={(e) => setNewTimeSlot(e.target.value)}
+                          />
+                        </TimeInputWrapper>
+                        <Button onClick={() => {
+                          if (newTimeSlot) {
+                            setModalClockVisible(false);
+                          }
+                        }}>
+                          Confirm
+                        </Button>
+                      </div>
+                    ) : (
+                      <ClockContainer>
+                        <ClockInstruction>
+                          {clockPhase === 'hour' ? 'Select hour' : 'Select minute'}
+                        </ClockInstruction>
+                        <TimeDisplay>{format(selectedTime, 'hh:mm')}</TimeDisplay>
+                        <AMPMSwitch>
+                          <AMPMLabel $active={isAM}>AM</AMPMLabel>
+                          <Switch $isAM={isAM} onClick={toggleAMPM} />
+                          <AMPMLabel $active={!isAM}>PM</AMPMLabel>
+                        </AMPMSwitch>
+                        <ClockFace ref={clockRef} onClick={handleClockClick}>
+                          <HourHand
+                            $angle={selectedTime.getHours() * 30 + selectedTime.getMinutes() * 0.5}
+                            $show={clockPhase === 'hour'}
+                          />
+                          <MinuteHand
+                            $angle={selectedTime.getMinutes() * 6}
+                            $show={clockPhase === 'minute'}
+                          />
+                          {[...Array(12)].map((_, index) => (
+                            <ClockNumber key={index} $rotation={index * 30}>
+                              {index === 0 ? 12 : index}
+                            </ClockNumber>
+                          ))}
+                        </ClockFace>
+                        <div>
+                          <ClockButton onClick={handleClockConfirm}>
+                            {clockPhase === 'hour' ? 'Next' : 'Confirm'}
+                          </ClockButton>
+                          <ClockButton onClick={handleClockCancel}>Cancel</ClockButton>
+                        </div>
+                      </ClockContainer>
+                    ))}
+                </div>
               )}
             </TimeSelectionContainer>
 
