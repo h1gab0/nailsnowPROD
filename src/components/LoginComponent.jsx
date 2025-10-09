@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { useInstance } from '../context/InstanceContext';
 
 const LoginWrapper = styled.div`
   position: fixed;
@@ -87,7 +86,7 @@ const ErrorMessage = styled.div`
 `;
 
 const LoginComponent = () => {
-  const { instanceId } = useInstance();
+  const { instanceId } = useParams();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
