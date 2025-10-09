@@ -9,8 +9,12 @@ const defaultData = {
       coupons: [                                                                                                                                                      
         { code: 'SAVE10', discount: 10, usesLeft: 10, expiresAt: '2025-12-31' }                                                                                       
       ],                                                                                                                                                              
-      appointments: [],                                                                                                                                               
-      availability: {}                                                                                                                                                
+      appointments: [],
+      availability: {
+        "2025-10-20": { "isAvailable": true, "availableSlots": { "10:00": true, "11:00": true, "14:00": true } },
+        "2025-10-21": { "isAvailable": true, "availableSlots": { "10:00": true, "11:00": true, "14:00": true, "15:00": true } },
+        "2025-10-22": { "isAvailable": true, "availableSlots": { "09:00": true, "10:00": true } }
+      }
     }                                                                                                                                                                 
   }                                                                                                                                                                   
 };                                                                                                                                                                    
