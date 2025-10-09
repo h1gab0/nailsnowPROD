@@ -90,7 +90,7 @@ export default function App() {
                     <Route path="carousel/:id" element={<TrendDetails />} />
                     <Route path="coupon" element={<CouponPage />} />
                     <Route path="services" element={<Services />} />
-                    <Gallerallery />} />
+                <Route path="gallery" element={<Gallery />} />
                 </Route>
 
                 {/* Redirect root path to the super admin login */}
