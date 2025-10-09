@@ -7,6 +7,7 @@ import AdminCalendar from '../components/AdminCalendar';
 import { format, parseISO, isBefore, startOfDay, set, isAfter, isSameMonth, startOfToday } from 'date-fns';
 import CollapsibleAppointment from '../components/CollapsibleAppointment';
 import CouponManagement from '../components/CouponManagement';
+import CouponTracker from '../components/CouponTracker';
 
 const DashboardContainer = styled.div`
   max-width: 1200px;
@@ -906,6 +907,7 @@ function AdminDashboard() {
       <Button onClick={handleLogout}>Logout</Button>
       <AdminCalendar appointments={appointments} onDaySelect={handleDaySelect} selectedDate={selectedDate} />
       <CouponManagement instanceId={instanceId} />
+      <CouponTracker instanceId={instanceId} />
 
       <AppointmentListSection ref={appointmentListRef}>
         <SubHeader>All Appointments</SubHeader>
