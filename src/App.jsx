@@ -90,11 +90,11 @@ export default function App() {
                     <Route path="carousel/:id" element={<TrendDetails />} />
                     <Route path="coupon" element={<CouponPage />} />
                     <Route path="services" element={<Services />} />
-                    <Route path="gallery" element={<Gallery />} />
+                    <Gallerallery />} />
                 </Route>
 
                 {/* Redirect root path to the super admin login */}
-                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/" element={<Navigate to="/admin/login" replace />} />
             </Route>
           </Routes>
         </AuthProvider>
