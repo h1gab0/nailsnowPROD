@@ -40,7 +40,7 @@ router.post('/coupons', requireAdmin, async (req, res) => {
     if (!code || !discount || !usesLeft || !expiresAt) {
         return res.status(400).json({ message: 'All coupon fields are required' });
     }
-    const newCoupon = { code, discount: parseInt(discount), usesLeft: parseInt(usesLeft), expiresAt };
+    const newCoupon = { code, discount: parseInt(discount), usesLeft: parseInt(usesLeft), expiresAt, inRotation: false };
     req.instanceData.coupons.push(newCoupon);
     await db.write();
     res.status(201).json(newCoupon);
@@ -48,7 +48,7 @@ router.post('/coupons', requireAdmin, async (req, res) => {
 
 router.put('/coupons/:code', requireAdmin, async (req, res) => {
     const { code } = req.params;
-    const { usesLeft, expiresAt } = req.body;
+    const { usesLeft, expiresAt, inRotation } = req.body;
     const couponIndex = req.instanceData.coupons.findIndex(c => c.code === code);
 
     if (couponIndex === -1) return res.status(404).json({ message: 'Coupon not found' });
@@ -59,6 +59,9 @@ router.put('/coupons/:code', requireAdmin, async (req, res) => {
         req.instanceData.coupons[couponIndex].usesLeft = newUses;
     }
     if (expiresAt) req.instanceData.coupons[couponIndex].expiresAt = expiresAt;
+    if (inRotation !== undefined) {
+        req.instanceData.coupons[couponIndex].inRotation = inRotation;
+    }
 
     await db.write();
     res.json(req.instanceData.coupons[couponIndex]);
@@ -162,27 +165,21 @@ router.post('/appointments', async (req, res) => {
 
     // Award a new coupon if it's a client creation
     if (!isAdminCreation) {
-        // Generate a new, unique coupon for the client
-        const newCouponCode = `WELCOME-${Date.now()}`;
-        const expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + 30); // Expires in 30 days
+        const rotationCoupons = req.instanceData.coupons.filter(c => c.inRotation && c.usesLeft > 0);
 
-        const newCoupon = {
-            code: newCouponCode,
-            discount: 10, // 10% discount
-            usesLeft: 1,
-            expiresAt: expiryDate.toISOString(),
-        };
+        if (rotationCoupons.length > 0) {
+            const randomIndex = Math.floor(Math.random() * rotationCoupons.length);
+            const couponToAward = rotationCoupons[randomIndex];
 
-        // Add the new coupon to the instance's list of all coupons
-        req.instanceData.coupons.push(newCoupon);
+            const couponIndex = req.instanceData.coupons.findIndex(c => c.code === couponToAward.code);
+            req.instanceData.coupons[couponIndex].usesLeft -= 1;
 
-        // Attach the details of the awarded coupon to the appointment
-        newAppointment.awardedCoupon = {
-            code: newCoupon.code,
-            discount: newCoupon.discount,
-            expiresAt: newCoupon.expiresAt,
-        };
+            newAppointment.awardedCoupon = {
+                code: couponToAward.code,
+                discount: couponToAward.discount,
+                expiresAt: couponToAward.expiresAt,
+            };
+        }
     }
 
     req.instanceData.appointments.push(newAppointment);
