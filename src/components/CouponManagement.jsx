@@ -133,6 +133,19 @@ const UpdateUsesContainer = styled.div`
     gap: 0.5rem;
 `;
 
+const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+`;
+
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+  width: 1rem;
+  height: 1rem;
+`;
+
+
 const CouponManagement = ({ instanceId }) => {
   const [coupons, setCoupons] = useState([]);
   const [stats, setStats] = useState({
@@ -146,6 +159,7 @@ const CouponManagement = ({ instanceId }) => {
     discount: '',
     usesLeft: '',
     expiresAt: '',
+    inRotation: false,
   });
 
   useEffect(() => {
@@ -196,7 +210,7 @@ const CouponManagement = ({ instanceId }) => {
       if (response.ok) {
         const addedCoupon = await response.json();
         setCoupons([...coupons, addedCoupon]);
-        setNewCoupon({ code: '', discount: '', usesLeft: '', expiresAt: '' });
+        setNewCoupon({ code: '', discount: '', usesLeft: '', expiresAt: '', inRotation: false });
       }
     } catch (error) {
       console.error('Error adding coupon:', error);
@@ -231,6 +245,23 @@ const CouponManagement = ({ instanceId }) => {
         }
     } catch (error) {
         console.error('Error updating coupon uses:', error);
+    }
+  };
+
+  const handleToggleRotation = async (code, inRotation) => {
+    try {
+      const response = await fetch(`/api/${instanceId}/coupons/${code}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inRotation }),
+        credentials: 'include',
+      });
+      if (response.ok) {
+        const updatedCoupon = await response.json();
+        setCoupons(coupons.map(c => c.code === code ? updatedCoupon : c));
+      }
+    } catch (error) {
+      console.error('Error toggling coupon rotation:', error);
     }
   };
 
@@ -301,6 +332,13 @@ const CouponManagement = ({ instanceId }) => {
                 <Button onClick={() => handleUpdateCouponUses(coupon.code, coupon.usesLeft + 1)}>+</Button>
                 <Button disabled={coupon.usesLeft <= 0} onClick={() => handleUpdateCouponUses(coupon.code, coupon.usesLeft - 1)}>-</Button>
             </UpdateUsesContainer>
+            <CheckboxLabel>
+              In Rotation
+              <Checkbox
+                checked={coupon.inRotation}
+                onChange={(e) => handleToggleRotation(coupon.code, e.target.checked)}
+              />
+            </CheckboxLabel>
             <RemoveButton onClick={() => handleRemoveCoupon(coupon.code)}>Remove</RemoveButton>
           </CouponItem>
         ))}

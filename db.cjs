@@ -1,43 +1,42 @@
-const { Low } = require('lowdb');                                                                                                                                     
-const { JSONFile } = require('lowdb/node');                                                                                                                           
-                                                                                                                                                                      
-const defaultData = {                                                                                                                                                 
-  instances: {                                                                                                                                                        
-    "default": {                                                                                                                                                      
-      name: "Nail Scheduler Default",                                                                                                                                 
-      admins: [{ username: 'admin', password: 'password' }],                                                                                                          
-      coupons: [                                                                                                                                                      
-        { code: 'SAVE10', discount: 10, usesLeft: 10, expiresAt: '2025-12-31' }                                                                                       
-      ],                                                                                                                                                              
+const { Low } = require('lowdb');
+const { JSONFile } = require('lowdb/node');
+const fs = require('fs');
+
+const defaultData = {
+  instances: {
+    "default": {
+      name: "Nail Scheduler Default",
+      admins: [{ username: 'admin', password: 'password' }],
+      coupons: [
+        { code: 'SAVE10', discount: 10, usesLeft: 10, expiresAt: '2025-12-31' }
+      ],
       appointments: [],
       availability: {
         "2025-10-20": { "isAvailable": true, "availableSlots": { "10:00": true, "11:00": true, "14:00": true } },
         "2025-10-21": { "isAvailable": true, "availableSlots": { "10:00": true, "11:00": true, "14:00": true, "15:00": true } },
         "2025-10-22": { "isAvailable": true, "availableSlots": { "09:00": true, "10:00": true } }
       }
-    }                                                                                                                                                                 
-  }                                                                                                                                                                   
-};                                                                                                                                                                    
-                                                                                                                                                                      
-const adapter = new JSONFile('db.json');                                                                                                                              
-const db = new Low(adapter, defaultData);                                                                                                                             
-                                                                                                                                                                      
-const initDb = async () => {                                                                                                                                          
-    try {                                                                                                                                                             
-        await db.read();                                                                                                                                              
-    } catch (e) {                                                                                                                                                     
-        // If the file is corrupt or empty, it might throw an error.                                                                                                  
-        // We can log this and assume the db is empty.                                                                                                                
-        console.log("Could not read db.json, likely because it is empty or corrupt. Initializing with default data.");                                                
-        db.data = null; // Force re-initialization                                                                                                                    
-    }                                                                                                                                                                 
-                                                                                                                                                                      
-    // If the file didn't exist or was corrupt, db.data will be null.                                                                                                 
-    // Set it to default data and write to the file to create/fix it.                                                                                                 
-    if (!db.data) {                                                                                                                                                   
-        db.data = defaultData;                                                                                                                                        
-        await db.write();                                                                                                                                             
-    }                                                                                                                                                                 
+    }
+  }
+};
+
+const adapter = new JSONFile('db.json');
+const db = new Low(adapter, defaultData);
+
+const initDb = async () => {
+    const dbExists = fs.existsSync('db.json');
+
+    try {
+        await db.read();
+    } catch (e) {
+        console.log("Could not read db.json, likely because it is empty or corrupt. Initializing with default data.");
+        db.data = null;
+    }
+
+    if (!db.data || !dbExists) {
+        db.data = defaultData;
+        await db.write();
+    }
 };                                       
 
 const getInstanceData = async (instanceId) => {
