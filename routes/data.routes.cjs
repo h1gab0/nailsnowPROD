@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true }); // Important: mergeParams allows us to access :instanceId from the parent router
 const { db, getInstanceData } = require('../db.cjs');
+const { isAfter, startOfToday } = require('date-fns');
 
 const requireAdmin = (req, res, next) => {
     if (req.session.isAuthenticated) { next(); }
@@ -89,9 +90,12 @@ router.get('/coupons/stats', requireAdmin, (req, res) => {
 
 // --- Availability ---
 router.get('/availability/dates', (req, res) => {
+    const today = startOfToday();
     const availableDates = Object.keys(req.instanceData.availability).filter(date => {
         const slots = req.instanceData.availability[date].availableSlots;
-        return Object.values(slots).some(isAvailable => isAvailable);
+        const [year, month, day] = date.split('-').map(Number);
+        const dateObj = new Date(year, month - 1, day);
+        return dateObj >= today && Object.values(slots).some(isAvailable => isAvailable);
     });
     res.json(availableDates);
 });
