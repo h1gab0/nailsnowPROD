@@ -160,30 +160,29 @@ router.post('/appointments', async (req, res) => {
 
     const newAppointment = { id: Date.now(), date, time, clientName, phone, status, image, couponCode, notes: [] };
 
-    // Award a new coupon if available and not an admin creation
+    // Award a new coupon if it's a client creation
     if (!isAdminCreation) {
-        const availableCoupons = req.instanceData.coupons.filter(c => c.usesLeft > 0 && new Date() <= new Date(c.expiresAt));
-        if (availableCoupons.length > 0) {
-            // Select a random coupon to award
-            const randomIndex = Math.floor(Math.random() * availableCoupons.length);
-            const awardedCouponCode = availableCoupons[randomIndex].code;
+        // Generate a new, unique coupon for the client
+        const newCouponCode = `WELCOME-${Date.now()}`;
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + 30); // Expires in 30 days
 
-            // Find the coupon in the main list and decrement its uses
-            const couponIndex = req.instanceData.coupons.findIndex(c => c.code === awardedCouponCode);
-            if (couponIndex !== -1) {
-                const couponToAward = req.instanceData.coupons[couponIndex];
+        const newCoupon = {
+            code: newCouponCode,
+            discount: 10, // 10% discount
+            usesLeft: 1,
+            expiresAt: expiryDate.toISOString(),
+        };
 
-                // Assign a cleaner, smaller object to the appointment
-                newAppointment.awardedCoupon = {
-                    code: couponToAward.code,
-                    discount: couponToAward.discount,
-                    expiresAt: couponToAward.expiresAt
-                };
+        // Add the new coupon to the instance's list of all coupons
+        req.instanceData.coupons.push(newCoupon);
 
-                // Decrement the uses left for the original coupon in the database
-                req.instanceData.coupons[couponIndex].usesLeft -= 1;
-            }
-        }
+        // Attach the details of the awarded coupon to the appointment
+        newAppointment.awardedCoupon = {
+            code: newCoupon.code,
+            discount: newCoupon.discount,
+            expiresAt: newCoupon.expiresAt,
+        };
     }
 
     req.instanceData.appointments.push(newAppointment);
