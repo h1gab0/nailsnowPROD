@@ -40,8 +40,8 @@ const CouponDetails = styled.p`
   margin: 0.5rem 0;
 `;
 
-const CouponCard = ({ coupon }) => {
-  if (!coupon) {
+const CouponCard = ({ code, discount, expiresAt }) => {
+  if (!code) {
     return null;
   }
 
@@ -50,10 +50,12 @@ const CouponCard = ({ coupon }) => {
       <CouponTitle>
         <FaTicketAlt /> Your Exclusive Offer!
       </CouponTitle>
-      <CouponDetails>{coupon.description}</CouponDetails>
-      <CouponCode>{coupon.code}</CouponCode>
       <CouponDetails>
-        Valid until: {format(parseISO(coupon.expiryDate), 'MMMM d, yyyy')}
+        Here's a <strong>{discount}% discount</strong> for your next visit!
+      </CouponDetails>
+      <CouponCode>{code}</CouponCode>
+      <CouponDetails>
+        Valid until: {format(parseISO(expiresAt), 'MMMM d, yyyy')}
       </CouponDetails>
     </CouponWrapper>
   );
