@@ -209,6 +209,14 @@ router.delete('/appointments/:id', requireAdmin, async (req, res) => {
         }
     }
 
+    // If the deleted appointment was awarded a coupon, find that coupon and increment its uses
+    if (deletedAppointment.awardedCoupon) {
+        const couponIndex = req.instanceData.coupons.findIndex(c => c.code === deletedAppointment.awardedCoupon.code);
+        if (couponIndex !== -1) {
+            req.instanceData.coupons[couponIndex].usesLeft += 1;
+        }
+    }
+
     // Make the time slot available again
     if (req.instanceData.availability[deletedAppointment.date] && req.instanceData.availability[deletedAppointment.date].availableSlots[deletedAppointment.time] === false) {
         req.instanceData.availability[deletedAppointment.date].availableSlots[deletedAppointment.time] = true;
