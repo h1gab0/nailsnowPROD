@@ -201,13 +201,22 @@ router.delete('/appointments/:id', requireAdmin, async (req, res) => {
 
     const [deletedAppointment] = req.instanceData.appointments.splice(appointmentIndex, 1);
 
-    // If the deleted appointment had an awarded coupon, find that coupon and extend its expiration
+    // If the deleted appointment had an awarded coupon, find that coupon, extend its expiration, and increment its uses
     if (deletedAppointment.awardedCoupon) {
         const couponIndex = req.instanceData.coupons.findIndex(c => c.code === deletedAppointment.awardedCoupon.code);
         if (couponIndex !== -1) {
+            req.instanceData.coupons[couponIndex].usesLeft += 1;
             const currentExpiry = new Date(req.instanceData.coupons[couponIndex].expiresAt);
             const newExpiry = addDays(currentExpiry, 7);
-            req.instanceData.coupons[couponIndex].expiresAt = newExpiry.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+            req.instanceData.coupons[couponIndex].expiresAt = newExpiry.toISOString().split('T')[0];
+        }
+    }
+
+    // If the deleted appointment used a coupon code, find that coupon and increment its uses
+    if (deletedAppointment.couponCode) {
+        const couponIndex = req.instanceData.coupons.findIndex(c => c.code === deletedAppointment.couponCode);
+        if (couponIndex !== -1) {
+            req.instanceData.coupons[couponIndex].usesLeft += 1;
         }
     }
 
