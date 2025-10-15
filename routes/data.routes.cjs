@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true }); // Important: mergeParams allows us to access :instanceId from the parent router
 const { db, getInstanceData } = require('../db.cjs');
-const { isAfter, startOfToday } = require('date-fns');
+const { isAfter, startOfToday, addDays } = require('date-fns');
 
 const requireAdmin = (req, res, next) => {
     if (req.session.isAuthenticated) { next(); }
@@ -200,6 +200,18 @@ router.delete('/appointments/:id', requireAdmin, async (req, res) => {
     if (appointmentIndex === -1) return res.status(404).json({ message: 'Appointment not found' });
 
     const [deletedAppointment] = req.instanceData.appointments.splice(appointmentIndex, 1);
+
+    // If the deleted appointment had an awarded coupon, find that coupon and extend its expiration
+    if (deletedAppointment.awardedCoupon) {
+        const couponIndex = req.instanceData.coupons.findIndex(c => c.code === deletedAppointment.awardedCoupon.code);
+        if (couponIndex !== -1) {
+            const currentExpiry = new Date(req.instanceData.coupons[couponIndex].expiresAt);
+            const newExpiry = addDays(currentExpiry, 7);
+            req.instanceData.coupons[couponIndex].expiresAt = newExpiry.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        }
+    }
+
+    // Make the time slot available again
     if (req.instanceData.availability[deletedAppointment.date] && req.instanceData.availability[deletedAppointment.date].availableSlots[deletedAppointment.time] === false) {
         req.instanceData.availability[deletedAppointment.date].availableSlots[deletedAppointment.time] = true;
     }
