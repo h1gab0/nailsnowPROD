@@ -171,9 +171,6 @@ router.post('/appointments', async (req, res) => {
             const randomIndex = Math.floor(Math.random() * rotationCoupons.length);
             const couponToAward = rotationCoupons[randomIndex];
 
-            const couponIndex = req.instanceData.coupons.findIndex(c => c.code === couponToAward.code);
-            req.instanceData.coupons[couponIndex].usesLeft -= 1;
-
             newAppointment.awardedCoupon = {
                 code: couponToAward.code,
                 discount: couponToAward.discount,
