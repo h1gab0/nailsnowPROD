@@ -1,6 +1,7 @@
-const express = require('express');                                                                                                                                   
-const router = express.Router();                                                                                                                                      
+const express = require('express');
+const router = express.Router();
 const { db, getInstanceData } = require('../db.cjs');                                                                                                                 
+const { sendWhatsAppMessage } = require('../utils/whatsapp.cjs');
                                                                                                                                                                       
 const requireSuperAdmin = (req, res, next) => {                                                                                                                       
     if (req.session.isAuthenticated && req.session.user.isSuperAdmin) { next(); }                                                                                     
@@ -12,19 +13,25 @@ router.get('/instances', requireSuperAdmin, async (req, res) => {
     res.json(Object.keys(db.data.instances).map(id => ({ id, name: db.data.instances[id].name })));                                                                   
 });                                                                                                                                                                   
                                                                                                                                                                       
-router.post('/instances', requireSuperAdmin, async (req, res) => {                                                                                                    
-    const { id, name } = req.body;                                                                                                                                    
-    if (!id || !name) {                                                                                                                                               
-        return res.status(400).json({ message: 'Instance ID and name are required.' });                                                                               
-    }                                                                                                                                                                 
-    await db.read();                                                                                                                                                  
-    if (db.data.instances[id]) {                                                                                                                                      
-        return res.status(409).json({ message: 'Instance with this ID already exists.' });                                                                            
-    }                                                                                                                                                                 
-    const instanceData = getInstanceData(id);                                                                                                                         
-    instanceData.name = name;                                                                                                                                         
-    await db.write();                                                                                                                                                 
-    res.status(201).json({ id, name });                                                                                                                               
+router.post('/instances', requireSuperAdmin, async (req, res) => {
+    const { id, name, phoneNumber } = req.body;
+    if (!id || !name || !phoneNumber) {
+        return res.status(400).json({ message: 'Instance ID, name, and phone number are required.' });
+    }
+    await db.read();
+    if (db.data.instances[id]) {
+        return res.status(409).json({ message: 'Instance with this ID already exists.' });
+    }
+    const instanceData = await getInstanceData(id);
+    instanceData.name = name;
+    instanceData.phoneNumber = phoneNumber;
+    await db.write();
+
+    const adminUser = instanceData.admins[0];
+    const messageBody = `Welcome to the platform! Your new instance "${name}" has been created. You can log in with the following credentials:\nUsername: ${adminUser.username}\nPassword: ${adminUser.password}`;
+    sendWhatsAppMessage(phoneNumber, messageBody);
+
+    res.status(201).json({ id, name });
 });                                                                                                                                                                   
                                                                                                                                                                       
 router.get('/instances/:instanceId/stats', requireSuperAdmin, async (req, res) => {

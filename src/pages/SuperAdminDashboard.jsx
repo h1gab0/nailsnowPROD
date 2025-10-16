@@ -101,7 +101,7 @@ const Button = styled.button`
 
 const SuperAdminDashboard = () => {
     const [instances, setInstances] = useState([]);
-    const [newInstance, setNewInstance] = useState({ id: '', name: '' });
+    const [newInstance, setNewInstance] = useState({ id: '', name: '', phoneNumber: '' });
 
     useEffect(() => {
         const fetchInstances = async () => {
@@ -130,8 +130,8 @@ const SuperAdminDashboard = () => {
 
     const handleCreateInstance = async (e) => {
         e.preventDefault();
-        if (!newInstance.id || !newInstance.name) {
-            alert('Please provide both an ID and a name for the new instance.');
+        if (!newInstance.id || !newInstance.name || !newInstance.phoneNumber) {
+            alert('Please provide an ID, a name, and a phone number for the new instance.');
             return;
         }
         try {
@@ -144,8 +144,8 @@ const SuperAdminDashboard = () => {
             if (response.ok) {
                 const createdInstance = await response.json();
                 setInstances(prev => [...prev, createdInstance]);
-                alert(`Instance "${createdInstance.name}" created successfully!\nDefault admin credentials:\nUsername: admin\nPassword: password`);
-                setNewInstance({ id: '', name: '' });
+                alert(`Instance "${createdInstance.name}" created successfully!\nDefault admin credentials will be sent to the provided phone number.`);
+                setNewInstance({ id: '', name: '', phoneNumber: '' });
             } else {
                 const errorData = await response.json();
                 alert(`Failed to create instance: ${errorData.message}`);
@@ -195,6 +195,13 @@ const SuperAdminDashboard = () => {
                         name="id"
                         placeholder="Instance URL ID (e.g., janes-nails)"
                         value={newInstance.id}
+                        onChange={handleInputChange}
+                    />
+                    <Input
+                        type="tel"
+                        name="phoneNumber"
+                        placeholder="Instance Admin Phone Number (e.g., +1234567890)"
+                        value={newInstance.phoneNumber}
                         onChange={handleInputChange}
                     />
                     <Button type="submit">Create Instance</Button>

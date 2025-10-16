@@ -44,6 +44,7 @@ const getInstanceData = async (instanceId) => {
     if (!db.data.instances[instanceId]) {
         db.data.instances[instanceId] = {
             name: `${instanceId}'s Scheduler`,
+            phoneNumber: '',
             admins: [{ username: 'admin', password: 'password' }],
             coupons: [],
             appointments: [],
