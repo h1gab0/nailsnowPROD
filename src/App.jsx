@@ -23,6 +23,7 @@ import TrendDetails from './pages/TrendDetails';
 import CouponPage from './pages/CouponPage';
 import Services from './pages/Services';
 import Gallery from './pages/Gallery';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 const MainContent = styled.main`
   padding-top: 60px;
@@ -94,7 +95,7 @@ export default function App() {
                 </Route>
 
                 {/* Redirect root path to the super admin login */}
-                <Route path="/" element={<Navigate to="/admin/login" replace />} />
+                <Route path="/" element={<LandingPage />} />
             </Route>
           </Routes>
         </AuthProvider>

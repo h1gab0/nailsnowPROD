@@ -1,0 +1,146 @@
+:root {
+    --deep-charcoal: #2C2C2C;
+    --warm-cream: #F8F6F0;
+    --soft-rose: #E8B4B8;
+    --sage-green: #A8B5A0;
+    --muted-gold: #D4B896;
+    --dusty-blue: #8FA3B0;
+    --warm-gray: #6B6B6B;
+}
+
+body {
+    font-family: 'Suisse Int\'l', sans-serif;
+    background-color: var(--warm-cream);
+    color: var(--deep-charcoal);
+    line-height: 1.6;
+}
+
+.font-display {
+    font-family: 'Canela', serif;
+}
+
+.hero-bg {
+    background: linear-gradient(135deg, rgba(232, 180, 184, 0.1) 0%, rgba(168, 181, 160, 0.1) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('./resources/hero-salon-interior.png') center/cover no-repeat;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.glass-nav {
+    backdrop-filter: blur(20px);
+    background: rgba(248, 246, 240, 0.9);
+    border-bottom: 1px solid rgba(232, 180, 184, 0.2);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--soft-rose) 0%, var(--sage-green) 100%);
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(232, 180, 184, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(232, 180, 184, 0.4);
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(232, 180, 184, 0.2);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) rotateX(2deg);
+    box-shadow: 0 20px 40px rgba(44, 44, 44, 0.1);
+}
+
+.pricing-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.pricing-card.featured {
+    border-color: var(--soft-rose);
+    background: rgba(232, 180, 184, 0.05);
+}
+
+.pricing-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(44, 44, 44, 0.1);
+}
+
+.demo-calendar {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(232, 180, 184, 0.3);
+}
+
+.calendar-day {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.calendar-day:hover {
+    background: var(--soft-rose);
+    color: white;
+}
+
+.calendar-day.selected {
+    background: var(--sage-green);
+    color: white;
+}
+
+.service-card {
+    border: 2px solid rgba(232, 180, 184, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.service-card:hover {
+    border-color: var(--soft-rose);
+    background: rgba(232, 180, 184, 0.05);
+}
+
+.service-card.selected {
+    border-color: var(--sage-green);
+    background: rgba(168, 181, 160, 0.1);
+}
+
+.particles-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.6s ease;
+}
+
+@media (max-width: 768px) {
+    .hero-bg::before {
+        opacity: 0.2;
+    }
+}
