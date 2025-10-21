@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { db, getInstanceData } = require('../db.cjs');                                                                                                                 
-const { sendWhatsAppMessage } = require('../utils/whatsapp.cjs');
                                                                                                                                                                       
 const requireSuperAdmin = (req, res, next) => {                                                                                                                       
     if (req.session.isAuthenticated && req.session.user.isSuperAdmin) { next(); }                                                                                     
@@ -29,7 +28,6 @@ router.post('/instances', requireSuperAdmin, async (req, res) => {
 
     const adminUser = instanceData.admins[0];
     const messageBody = `Welcome to the platform! Your new instance "${name}" has been created. You can log in with the following credentials:\nUsername: ${adminUser.username}\nPassword: ${adminUser.password}`;
-    sendWhatsAppMessage(phoneNumber, messageBody);
 
     res.status(201).json({ id, name });
 });                                                                                                                                                                   
