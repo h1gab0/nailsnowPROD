@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
 
 :root {
-    --primary: #6B46C1;
-    --secondary: #F56565;
+    --primary: #4A5568;
+    --secondary: #E53E3E;
     --accent: #38B2AC;
     --neutral: #A0AEC0;
     --white: #FFFFFF;
@@ -14,23 +14,27 @@ body {
     font-family: 'Open Sans', sans-serif;
     background-color: var(--background);
     color: var(--black);
-    line-height: 1.8;
+    line-height: 1.6;
+    font-size: 1.1rem;
 }
 
 .font-display {
     font-family: 'Merriweather', serif;
+    font-weight: 700;
 }
 
 .hero-bg {
-    background: linear-gradient(135deg, rgba(107, 70, 193, 0.1) 0%, rgba(56, 178, 172, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(74, 85, 104, 0.1) 0%, rgba(56, 178, 172, 0.1) 100%);
     position: relative;
     overflow: hidden;
+    padding: 6rem 0;
 }
 
 .glass-nav {
     backdrop-filter: blur(20px);
-    background: rgba(247, 250, 252, 0.9);
-    border-bottom: 1px solid rgba(107, 70, 193, 0.2);
+    background: rgba(247, 250, 252, 0.85);
+    border-bottom: 1px solid rgba(74, 85, 104, 0.2);
+    padding: 1.5rem 0;
 }
 
 .btn-primary {
@@ -127,4 +131,18 @@ body {
     opacity: 1;
     transform: translateY(0);
     transition: all 0.6s ease;
+}
+
+.w-8 {
+  width: 2rem;
+}
+
+.h-8 {
+  height: 2rem;
+}
+.w-16 {
+  width: 4rem;
+}
+.h-16 {
+  height: 4rem;
 }
