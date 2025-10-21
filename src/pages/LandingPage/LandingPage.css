@@ -1,70 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
 :root {
-    --deep-charcoal: #2C2C2C;
-    --warm-cream: #F8F6F0;
-    --soft-rose: #E8B4B8;
-    --sage-green: #A8B5A0;
-    --muted-gold: #D4B896;
-    --dusty-blue: #8FA3B0;
-    --warm-gray: #6B6B6B;
+    --primary: #6B46C1;
+    --secondary: #F56565;
+    --accent: #38B2AC;
+    --neutral: #A0AEC0;
+    --white: #FFFFFF;
+    --black: #1A202C;
+    --background: #F7FAFC;
 }
 
 body {
-    font-family: 'Suisse Int\'l', sans-serif;
-    background-color: var(--warm-cream);
-    color: var(--deep-charcoal);
-    line-height: 1.6;
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--background);
+    color: var(--black);
+    line-height: 1.8;
 }
 
 .font-display {
-    font-family: 'Canela', serif;
+    font-family: 'Merriweather', serif;
 }
 
 .hero-bg {
-    background: linear-gradient(135deg, rgba(232, 180, 184, 0.1) 0%, rgba(168, 181, 160, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(107, 70, 193, 0.1) 0%, rgba(56, 178, 172, 0.1) 100%);
     position: relative;
     overflow: hidden;
 }
 
-.hero-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('./resources/hero-salon-interior.png') center/cover no-repeat;
-    opacity: 0.3;
-    z-index: -1;
-}
-
 .glass-nav {
     backdrop-filter: blur(20px);
-    background: rgba(248, 246, 240, 0.9);
-    border-bottom: 1px solid rgba(232, 180, 184, 0.2);
+    background: rgba(247, 250, 252, 0.9);
+    border-bottom: 1px solid rgba(107, 70, 193, 0.2);
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--soft-rose) 0%, var(--sage-green) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
     color: white;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(232, 180, 184, 0.3);
+    box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(232, 180, 184, 0.4);
+    box-shadow: 0 8px 30px rgba(107, 70, 193, 0.4);
 }
 
 .feature-card {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(232, 180, 184, 0.2);
+    border: 1px solid rgba(107, 70, 193, 0.2);
     transition: all 0.3s ease;
 }
 
 .feature-card:hover {
     transform: translateY(-8px) rotateX(2deg);
-    box-shadow: 0 20px 40px rgba(44, 44, 44, 0.1);
+    box-shadow: 0 20px 40px rgba(26, 32, 44, 0.1);
 }
 
 .pricing-card {
@@ -74,18 +64,18 @@ body {
 }
 
 .pricing-card.featured {
-    border-color: var(--soft-rose);
-    background: rgba(232, 180, 184, 0.05);
+    border-color: var(--primary);
+    background: rgba(107, 70, 193, 0.05);
 }
 
 .pricing-card:hover {
     transform: scale(1.02);
-    box-shadow: 0 15px 35px rgba(44, 44, 44, 0.1);
+    box-shadow: 0 15px 35px rgba(26, 32, 44, 0.1);
 }
 
 .demo-calendar {
     background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(232, 180, 184, 0.3);
+    border: 1px solid rgba(107, 70, 193, 0.3);
 }
 
 .calendar-day {
@@ -94,29 +84,29 @@ body {
 }
 
 .calendar-day:hover {
-    background: var(--soft-rose);
+    background: var(--primary);
     color: white;
 }
 
 .calendar-day.selected {
-    background: var(--sage-green);
+    background: var(--accent);
     color: white;
 }
 
 .service-card {
-    border: 2px solid rgba(232, 180, 184, 0.3);
+    border: 2px solid rgba(107, 70, 193, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .service-card:hover {
-    border-color: var(--soft-rose);
-    background: rgba(232, 180, 184, 0.05);
+    border-color: var(--primary);
+    background: rgba(107, 70, 193, 0.05);
 }
 
 .service-card.selected {
-    border-color: var(--sage-green);
-    background: rgba(168, 181, 160, 0.1);
+    border-color: var(--accent);
+    background: rgba(56, 178, 172, 0.1);
 }
 
 .particles-bg {
@@ -137,10 +127,4 @@ body {
     opacity: 1;
     transform: translateY(0);
     transition: all 0.6s ease;
-}
-
-@media (max-width: 768px) {
-    .hero-bg::before {
-        opacity: 0.2;
-    }
 }

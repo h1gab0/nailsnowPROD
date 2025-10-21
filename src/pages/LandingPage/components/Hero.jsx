@@ -3,9 +3,9 @@ import { GoogleLogin } from '@react-oauth/google';
 
 const Hero = ({ particlesContainer, typedElement, handleGoogleSuccess, handleGoogleError }) => {
   return (
-    <section className="hero-bg min-h-screen flex items-center pt-20">
+    <section className="hero-bg min-h-screen flex items-center pt-20 relative">
       <div className="particles-bg" id="particles-container" ref={particlesContainer}></div>
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center z-10">
         <div className="reveal">
           <h1 className="font-display text-5xl lg:text-6xl font-medium mb-6 leading-tight">
             Transforma Tu Salón de
@@ -37,8 +37,8 @@ const Hero = ({ particlesContainer, typedElement, handleGoogleSuccess, handleGoo
         </div>
         <div className="reveal">
           <div className="relative">
-            <img src="/resources/hero-dashboard-mockup.png" alt="Nails Now Dashboard" className="w-full rounded-2xl shadow-2xl" />
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-soft-rose rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+            <img src="/resources/hero-dashboard-mockup.png" alt="Nails Now Dashboard" className="w-full rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500" />
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-secondary rounded-full flex items-center justify-center text-white font-bold shadow-lg transform rotate-12">
               ¡Nuevo!
             </div>
           </div>
