@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nails Now - Transforma Tu Salón de Belleza con Tecnología Digital</title>
+    <meta name="description" content="Nails Now libera tiempo y optimiza la operación de salones de uñas y belleza mediante una plataforma digital que automatiza citas, controla inventarios y reporta ganancias.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Suisse+Int'l:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Canela:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
+    <style>
+        :root {
+            --deep-charcoal: #2C2C2C;
+            --warm-cream: #F8F6F0;
+            --soft-rose: #E8B4B8;
+            --sage-green: #A8B5A0;
+            --muted-gold: #D4B896;
+            --dusty-blue: #8FA3B0;
+            --warm-gray: #6B6B6B;
+        }
+        
+        body {
+            font-family: 'Suisse Int\'l', sans-serif;
+            background-color: var(--warm-cream);
+            color: var(--deep-charcoal);
+            line-height: 1.6;
+        }
+        
+        .font-display {
+            font-family: 'Canela', serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(232, 180, 184, 0.1) 0%, rgba(168, 181, 160, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-salon-interior.png') center/cover no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            background: rgba(248, 246, 240, 0.9);
+            border-bottom: 1px solid rgba(232, 180, 184, 0.2);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--soft-rose) 0%, var(--sage-green) 100%);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(232, 180, 184, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(232, 180, 184, 0.4);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(232, 180, 184, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px) rotateX(2deg);
+            box-shadow: 0 20px 40px rgba(44, 44, 44, 0.1);
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card.featured {
+            border-color: var(--soft-rose);
+            background: rgba(232, 180, 184, 0.05);
+        }
+        
+        .pricing-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(44, 44, 44, 0.1);
+        }
+        
+        .demo-calendar {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(232, 180, 184, 0.3);
+        }
+        
+        .calendar-day {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .calendar-day:hover {
+            background: var(--soft-rose);
+            color: white;
+        }
+        
+        .calendar-day.selected {
+            background: var(--sage-green);
+            color: white;
+        }
+        
+        .service-card {
+            border: 2px solid rgba(232, 180, 184, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            border-color: var(--soft-rose);
+            background: rgba(232, 180, 184, 0.05);
+        }
+        
+        .service-card.selected {
+            border-color: var(--sage-green);
+            background: rgba(168, 181, 160, 0.1);
+        }
+        
+        .particles-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-bg::before {
+                opacity: 0.2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="font-display text-2xl font-medium text-deep-charcoal">
+                Nails <span class="text-soft-rose">Now</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-warm-gray hover:text-deep-charcoal transition-colors">Características</a>
+                <a href="#demo" class="text-warm-gray hover:text-deep-charcoal transition-colors">Demo</a>
+                <a href="#pricing" class="text-warm-gray hover:text-deep-charcoal transition-colors">Planes</a>
+                <button class="btn-primary px-6 py-2 rounded-full font-medium">Comenzar Gratis</button>
+            </div>
+            <button class="md:hidden p-2" id="mobile-menu-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="particles-bg" id="particles-container"></div>
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="reveal">
+                <h1 class="font-display text-5xl lg:text-6xl font-medium mb-6 leading-tight">
+                    Transforma Tu Salón de 
+                    <span class="text-soft-rose" id="typed-text"></span>
+                </h1>
+                <p class="text-xl text-warm-gray mb-8 leading-relaxed">
+                    Nails Now libera tiempo y optimiza la operación de salones de uñas y belleza mediante una plataforma digital que automatiza citas, controla inventarios, reporta ganancias y mejora la experiencia del cliente.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                    <button class="btn-primary px-8 py-4 rounded-full font-medium text-lg">
+                        Comenzar Prueba Gratuita
+                    </button>
+                    <button class="border-2 border-soft-rose text-soft-rose px-8 py-4 rounded-full font-medium text-lg hover:bg-soft-rose hover:text-white transition-all">
+                        Ver Video Explicativo
+                    </button>
+                </div>
+                <div class="grid grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="font-display text-3xl font-medium text-soft-rose">85%</div>
+                        <div class="text-sm text-warm-gray">Menos Tiempo en Administración</div>
+                    </div>
+                    <div>
+                        <div class="font-display text-3xl font-medium text-sage-green">40%</div>
+                        <div class="text-sm text-warm-gray">Aumento en Clientes</div>
+                    </div>
+                    <div>
+                        <div class="font-display text-3xl font-medium text-dusty-blue">24/7</div>
+                        <div class="text-sm text-warm-gray">Disponibilidad de Citas</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal">
+                <div class="relative">
+                    <img src="resources/hero-dashboard-mockup.png" alt="Nails Now Dashboard" class="w-full rounded-2xl shadow-2xl">
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-soft-rose rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                        ¡Nuevo!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl lg:text-5xl font-medium mb-6">
+                    Todo Lo Que Necesitas para 
+                    <span class="text-soft-rose">Gestionar Tu Salón</span>
+                </h2>
+                <p class="text-xl text-warm-gray max-w-3xl mx-auto">
+                    Desde la reserva de citas hasta el control financiero, Nails Now proporciona todas las herramientas necesarias para llevar tu negocio de belleza al siguiente nivel.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card p-8 rounded-2xl reveal">
+                    <div class="w-16 h-16 bg-soft-rose rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl font-medium mb-4">Agendamiento Inteligente</h3>
+                    <p class="text-warm-gray mb-6">Sistema automatizado de citas que permite a tus clientes reservar 24/7, reduce no-shows y optimiza la disponibilidad de tu equipo.</p>
+                    <ul class="text-sm text-warm-gray space-y-2">
+                        <li>• Reservas online 24/7</li>
+                        <li>• Recordatorios automáticos</li>
+                        <li>• Sincronización con calendarios</li>
+                        <li>• Gestión de múltiples estilistas</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl reveal">
+                    <div class="w-16 h-16 bg-sage-green rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl font-medium mb-4">Control de Inventario</h3>
+                    <p class="text-warm-gray mb-6">Mantén un control preciso de tus productos y suministros con alertas automáticas para reabastecer antes de agotarse.</p>
+                    <ul class="text-sm text-warm-gray space-y-2">
+                        <li>• Seguimiento en tiempo real</li>
+                        <li>• Alertas de stock bajo</li>
+                        <li>• Historial de movimientos</li>
+                        <li>• Reportes de consumo</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl reveal">
+                    <div class="w-16 h-16 bg-dusty-blue rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl font-medium mb-4">Reportes Financieros</h3>
+                    <p class="text-warm-gray mb-6">Obtén insights valiosos sobre el rendimiento de tu negocio con reportes detallados de ingresos, gastos y rentabilidad.</p>
+                    <ul class="text-sm text-warm-gray space-y-2">
+                        <li>• Reportes diarios, semanales y mensuales</li>
+                        <li>• Análisis de rentabilidad por servicio</li>
+                        <li>• Control de gastos operativos</li>
+                        <li>• Proyecciones de crecimiento</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl reveal">
+                    <div class="w-16 h-16 bg-muted-gold rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl font-medium mb-4">Gestión de Clientes</h3>
+                    <p class="text-warm-gray mb-6">Crea perfiles detallados de tus clientes, registra sus preferencias y mejora su experiencia con un servicio personalizado.</p>
+                    <ul class="text-sm text-warm-gray space-y-2">
+                        <li>• Historial de servicios y preferencias</li>
+                        <li>• Notas personalizadas por cliente</li>
+                        <li>• Sistema de fidelización integrado</li>
+                        <li>• Comunicación automatizada</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl reveal">
+                    <div class="w-16 h-16 bg-soft-rose rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882H19.24a1 1 0 01.94 1.336l-2.5 7.5A1 1 0 0116.74 15H13V7.5L11 5.882zM11 5.882V15m0 0H6.26a1 1 0 01-.94-1.336l2.5-7.5A1 1 0 017.74 5H11z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl font-medium mb-4">Cupones y Promociones</h3>
+                    <p class="text-warm-gray mb-6">Atrae nuevos clientes y fideliza a los existentes con campañas de marketing integradas y cupones personalizados.</p>
+                    <ul class="text-sm text-warm-gray space-y-2">
+                        <li>• Creación de cupones personalizados</li>
+                        <li>• Campañas de email marketing</li>
+                        <li>• Programa de referidos</li>
+                        <li>• Análisis de efectividad</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card p-8 rounded-2xl reveal">
+                    <div class="w-16 h-16 bg-sage-green rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-2xl font-medium mb-4">Presencia Digital</h3>
+                    <p class="text-warm-gray mb-6">Sitio web personalizado con chatbot integrado para resolver dudas y promocionar tus servicios las 24 horas del día.</p>
+                    <ul class="text-sm text-warm-gray space-y-2">
+                        <li>• Sitio web personalizado</li>
+                        <li>• Chatbot para atención automática</li>
+                        <li>• Integración con redes sociales</li>
+                        <li>• SEO optimizado para salones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="py-20 px-6 bg-gradient-to-br from-soft-rose/10 to-sage-green/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl lg:text-5xl font-medium mb-6">
+                    Experimenta la <span class="text-soft-rose">Diferencia</span>
+                </h2>
+                <p class="text-xl text-warm-gray max-w-3xl mx-auto">
+                    Prueba nuestra demo interactiva y descubre cómo Nails Now transforma la gestión de tu salón en tiempo real.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <!-- Booking Demo -->
+                <div class="demo-calendar rounded-2xl p-8 reveal">
+                    <h3 class="font-display text-2xl font-medium mb-6">Reserva una Cita Demo</h3>
+                    
+                    <!-- Service Selection -->
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-4">Selecciona un Servicio:</h4>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="service-card p-4 rounded-lg" data-service="manicura" data-price="150">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-medium">Manicura Clásica</div>
+                                        <div class="text-sm text-warm-gray">45 minutos</div>
+                                    </div>
+                                    <div class="text-soft-rose font-medium">$150</div>
+                                </div>
+                            </div>
+                            <div class="service-card p-4 rounded-lg" data-service="pedicura" data-price="200">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-medium">Pedicura Completa</div>
+                                        <div class="text-sm text-warm-gray">60 minutos</div>
+                                    </div>
+                                    <div class="text-soft-rose font-medium">$200</div>
+                                </div>
+                            </div>
+                            <div class="service-card p-4 rounded-lg" data-service="acrilicas" data-price="400">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="font-medium">Uñas Acrílicas</div>
+                                        <div class="text-sm text-warm-gray">90 minutos</div>
+                                    </div>
+                                    <div class="text-soft-rose font-medium">$400</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar -->
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-4">Selecciona Fecha y Hora:</h4>
+                        <div class="grid grid-cols-7 gap-2 mb-4">
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Lun</div>
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Mar</div>
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Mié</div>
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Jue</div>
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Vie</div>
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Sáb</div>
+                            <div class="text-center text-sm text-warm-gray font-medium py-2">Dom</div>
+                            
+                            <div class="calendar-day text-center py-2 rounded text-warm-gray">21</div>
+                            <div class="calendar-day text-center py-2 rounded text-warm-gray">22</div>
+                            <div class="calendar-day text-center py-2 rounded">23</div>
+                            <div class="calendar-day text-center py-2 rounded">24</div>
+                            <div class="calendar-day text-center py-2 rounded">25</div>
+                            <div class="calendar-day text-center py-2 rounded">26</div>
+                            <div class="calendar-day text-center py-2 rounded">27</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="time-slot text-center py-2 px-3 rounded border border-gray-200 cursor-pointer hover:bg-soft-rose hover:text-white transition-all" data-time="10:00">10:00</div>
+                            <div class="time-slot text-center py-2 px-3 rounded border border-gray-200 cursor-pointer hover:bg-soft-rose hover:text-white transition-all" data-time="11:30">11:30</div>
+                            <div class="time-slot text-center py-2 px-3 rounded border border-gray-200 cursor-pointer hover:bg-soft-rose hover:text-white transition-all" data-time="13:00">13:00</div>
+                            <div class="time-slot text-center py-2 px-3 rounded border border-gray-200 cursor-pointer hover:bg-soft-rose hover:text-white transition-all" data-time="14:30">14:30</div>
+                            <div class="time-slot text-center py-2 px-3 rounded border border-gray-200 cursor-pointer hover:bg-soft-rose hover:text-white transition-all" data-time="16:00">16:00</div>
+                            <div class="time-slot text-center py-2 px-3 rounded border border-gray-200 cursor-pointer hover:bg-soft-rose hover:text-white transition-all" data-time="17:30">17:30</div>
+                        </div>
+                    </div>
+
+                    <!-- Booking Summary -->
+                    <div id="booking-summary" class="hidden bg-sage-green/10 p-4 rounded-lg mb-6">
+                        <h5 class="font-medium mb-2">Resumen de tu Cita:</h5>
+                        <div class="text-sm space-y-1">
+                            <div>Servicio: <span id="selected-service"></span></div>
+                            <div>Fecha: <span id="selected-date"></span></div>
+                            <div>Hora: <span id="selected-time"></span></div>
+                            <div>Precio: <span id="selected-price"></span></div>
+                        </div>
+                    </div>
+
+                    <button id="book-appointment" class="btn-primary w-full py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        Confirmar Cita Demo
+                    </button>
+                </div>
+
+                <!-- Analytics Preview -->
+                <div class="reveal">
+                    <div class="bg-white rounded-2xl p-8 shadow-lg">
+                        <h3 class="font-display text-2xl font-medium mb-6">Vista Previa del Dashboard</h3>
+                        
+                        <!-- Key Metrics -->
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="text-center p-4 bg-soft-rose/10 rounded-lg">
+                                <div class="font-display text-2xl font-medium text-soft-rose">127</div>
+                                <div class="text-sm text-warm-gray">Citas este mes</div>
+                            </div>
+                            <div class="text-center p-4 bg-sage-green/10 rounded-lg">
+                                <div class="font-display text-2xl font-medium text-sage-green">$31,450</div>
+                                <div class="text-sm text-warm-gray">Ingresos mensuales</div>
+                            </div>
+                            <div class="text-center p-4 bg-dusty-blue/10 rounded-lg">
+                                <div class="font-display text-2xl font-medium text-dusty-blue">94%</div>
+                                <div class="text-sm text-warm-gray">Clientes satisfechos</div>
+                            </div>
+                            <div class="text-center p-4 bg-muted-gold/10 rounded-lg">
+                                <div class="font-display text-2xl font-medium text-muted-gold">12</div>
+                                <div class="text-sm text-warm-gray">Productos bajos en stock</div>
+                            </div>
+                        </div>
+
+                        <!-- Chart Container -->
+                        <div id="revenue-chart" class="h-64 mb-6"></div>
+
+                        <!-- Recent Activity -->
+                        <div>
+                            <h4 class="font-medium mb-4">Actividad Reciente</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-soft-rose rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
+                                            M
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-sm">María González</div>
+                                            <div class="text-xs text-warm-gray">Manicura Clásica</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-warm-gray">Hace 5 min</div>
+                                </div>
+                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-sage-green rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
+                                            A
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-sm">Ana Martínez</div>
+                                            <div class="text-xs text-warm-gray">Pedicura Completa</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-warm-gray">Hace 12 min</div>
+                                </div>
+                                <div class="flex items-center justify-between py-2">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-dusty-blue rounded-full flex items-center justify-center text-white text-sm font-medium mr-3">
+                                            L
+                                        </div>
+                                        <div>
+                                            <div class="font-medium text-sm">Lucía Fernández</div>
+                                            <div class="text-xs text-warm-gray">Uñas Acrílicas</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-sm text-warm-gray">Hace 18 min</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl lg:text-5xl font-medium mb-6">
+                    Elige el Plan Perfecto para 
+                    <span class="text-soft-rose">Tu Salón</span>
+                </h2>
+                <p class="text-xl text-warm-gray max-w-3xl mx-auto mb-8">
+                    Desde salones emergentes hasta establecimientos establecidos, tenemos el plan ideal para ayudarte a crecer.
+                </p>
+                
+                <!-- Billing Toggle -->
+                <div class="flex items-center justify-center space-x-4 mb-12">
+                    <span class="text-warm-gray">Mensual</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="billing-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-soft-rose"></div>
+                    </label>
+                    <span class="text-warm-gray">Anual <span class="text-soft-rose text-sm">(2 meses gratis)</span></span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Free Plan -->
+                <div class="pricing-card p-8 rounded-2xl">
+                    <div class="text-center mb-8">
+                        <h3 class="font-display text-2xl font-medium mb-2">Asistente de Agenda</h3>
+                        <p class="text-warm-gray mb-6">Perfecto para salones que comienzan</p>
+                        <div class="mb-6">
+                            <span class="font-display text-4xl font-medium" id="free-price">$0</span>
+                            <span class="text-warm-gray">/mes</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Agendamiento básico</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Hasta 50 citas mensuales</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Cupones y promociones</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Soporte por email</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="w-full py-3 border-2 border-soft-rose text-soft-rose rounded-lg font-medium hover:bg-soft-rose hover:text-white transition-all">
+                        Comenzar Gratis
+                    </button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card featured p-8 rounded-2xl relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-soft-rose text-white px-6 py-2 rounded-full text-sm font-medium">Más Popular</span>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <h3 class="font-display text-2xl font-medium mb-2">Nails Now Pro</h3>
+                        <p class="text-warm-gray mb-6">Para salones que quieren crecer</p>
+                        <div class="mb-6">
+                            <span class="font-display text-4xl font-medium" id="premium-price">$298</span>
+                            <span class="text-warm-gray">/mes</span>
+                        </div>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Todas las funciones del plan gratis</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Citas ilimitadas</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Control completo de inventario</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Reportes financieros avanzados</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Sitio web personalizado</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-sage-green mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Soporte prioritario 24/7</span>
+                        </li>
+                    </ul>
+                    
+                    <button class="btn-primary w-full py-3 rounded-lg font-medium">
+                        Comenzar Prueba Gratuita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 px-6 bg-gradient-to-br from-sage-green/10 to-dusty-blue/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-display text-4xl lg:text-5xl font-medium mb-6">
+                    Lo Que Dicen Nuestros 
+                    <span class="text-soft-rose">Clientes</span>
+                </h2>
+                <p class="text-xl text-warm-gray max-w-3xl mx-auto">
+                    Más de 500 salones de belleza ya han transformado su operación con Nails Now.
+                </p>
+            </div>
+
+            <div class="splide" id="testimonials-slider">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
+                                <div class="flex items-center mb-6">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/divinelifestyle.com/fe08f12cc98974872d23c6370fd0fa539d5962b1.jpg" alt="María Rodríguez" class="w-16 h-16 rounded-full object-cover mr-4">
+                                    <div>
+                                        <div class="font-display text-xl font-medium">María Rodríguez</div>
+                                        <div class="text-warm-gray">Dueña de "Beauty Nails Studio"</div>
+                                        <div class="flex text-muted-gold mt-1">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-warm-gray italic text-lg leading-relaxed">
+                                    "Nails Now ha transformado completamente mi salón. Antes pasaba horas administrando citas y lidiando con cancelaciones. Ahora todo es automático y he aumentado mis ingresos en un 45% en solo 6 meses."
+                                </p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
+                                <div class="flex items-center mb-6">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/divinelifestyle.com/fe08f12cc98974872d23c6370fd0fa539d5962b1.jpg" alt="Carla Mendoza" class="w-16 h-16 rounded-full object-cover mr-4">
+                                    <div>
+                                        <div class="font-display text-xl font-medium">Carla Mendoza</div>
+                                        <div class="text-warm-gray">Dueña de "Elegant Nails & Spa"</div>
+                                        <div class="flex text-muted-gold mt-1">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-warm-gray italic text-lg leading-relaxed">
+                                    "El control de inventario me ha ahorrado tanto dinero. Antes compraba productos que no necesitaba y se me agotaban los más importantes. Ahora tengo exactamente lo que necesito cuando lo necesito."
+                                </p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
+                                <div class="flex items-center mb-6">
+                                    <img src="https://kimi-web-img.moonshot.cn/img/divinelifestyle.com/fe08f12cc98974872d23c6370fd0fa539d5962b1.jpg" alt="Patricia López" class="w-16 h-16 rounded-full object-cover mr-4">
+                                    <div>
+                                        <div class="font-display text-xl font-medium">Patricia López</div>
+                                        <div class="text-warm-gray">Dueña de "Glamour Nail Bar"</div>
+                                        <div class="flex text-muted-gold mt-1">
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-warm-gray italic text-lg leading-relaxed">
+                                    "Mi sitio web personalizado con Nails Now ha traído tantos clientes nuevos. La gente puede ver mis trabajos y reservar directamente. Es como tener un empleado de tiempo completo trabajando las 24 horas."
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-6 bg-gradient-to-br from-soft-rose/20 to-sage-green/20">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <h2 class="font-display text-4xl lg:text-5xl font-medium mb-6">
+                ¿Listo para Transformar Tu 
+                <span class="text-soft-rose">Salón de Belleza?</span>
+            </h2>
+            <p class="text-xl text-warm-gray mb-8 max-w-2xl mx-auto">
+                Únete a más de 500 salones que ya han optimizado su operación y aumentado sus ingresos con Nails Now.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+                <button class="btn-primary px-8 py-4 rounded-full font-medium text-lg">
+                    Comenzar Prueba Gratuita de 14 Días
+                </button>
+                <button class="border-2 border-soft-rose text-soft-rose px-8 py-4 rounded-full font-medium text-lg hover:bg-soft-rose hover:text-white transition-all">
+                    Agendar Demo Personalizada
+                </button>
+            </div>
+            <div class="text-sm text-warm-gray">
+                <p>Sin tarjeta de crédito • Cancelación en cualquier momento • Soporte personalizado</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 bg-deep-charcoal text-white">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="font-display text-2xl font-medium mb-4">
+                Nails <span class="text-soft-rose">Now</span>
+            </div>
+            <p class="text-warm-gray mb-8 max-w-2xl mx-auto">
+                La plataforma líder en gestión de salones de belleza en México. 
+                Transformando la industria de la belleza, un salón a la vez.
+            </p>
+            <div class="border-t border-warm-gray/20 pt-8">
+                <p class="text-warm-gray text-sm">
+                    © 2024 Nails Now. Todos los derechos reservados. 
+                    Diseñado para salones de belleza que buscan la excelencia.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
