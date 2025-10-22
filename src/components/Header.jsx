@@ -246,21 +246,19 @@ function Header() {
     <StyledHeader>
       <Nav>
         <Logo to={base || '/'} onClick={scrollToTop}>
-          {loading ? 'Loading...' : instance?.name || 'Nail Salon Scheduler'}
+          {loading ? 'Loading...' : 'NailsNow'}
         </Logo>
         <MenuButton onClick={toggleMenu} aria-label="Toggle menu">
           {isMenuOpen ? '✕' : '☰'}
         </MenuButton>
         <NavLinks>
-          <NavLink to={base || '/'} onClick={scrollToTop}>Home</NavLink>
-          <NavLink to={`${base}/services`}>Services</NavLink>
-          <NavLink to={`${base}/gallery`}>Nail Gallery</NavLink>
+          <NavLink to={`${base}/features`}>Caracteristicas</NavLink>
+          <NavLink to={`${base}/pricing`}>Planes</NavLink>
           <ScheduleButton
-            to={`${base}/schedule`}
-            onClick={handleScheduleClick}
-            aria-label="Schedule an appointment"
+            to={`${base}/login`}
+            aria-label="Sign In"
           >
-            Schedule Appointment
+            Sign In
           </ScheduleButton>
           <ThemeToggleWrapper>
             <ThemeToggle />
@@ -275,15 +273,13 @@ function Header() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <MobileNavLink to={base || '/'} onClick={scrollToTop}>Home</MobileNavLink>
-            <MobileNavLink to={`${base}/services`} onClick={closeMenu}>Services</MobileNavLink>
-            <MobileNavLink to={`${base}/gallery`} onClick={closeMenu}>Nail Gallery</MobileNavLink>
+            <MobileNavLink to={`${base}/features`} onClick={closeMenu}>Caracteristicas</MobileNavLink>
+            <MobileNavLink to={`${base}/pricing`} onClick={closeMenu}>Planes</MobileNavLink>
             <MobileScheduleButton 
-              to={`${base}/schedule`}
-              onClick={handleScheduleClick}
-              aria-label="Schedule an appointment"
+              to={`${base}/login`}
+              aria-label="Sign In"
             >
-              Schedule Appointment
+              Sign In
             </MobileScheduleButton>
             <ThemeToggleWrapper className="theme-toggle">
               <ThemeToggle />
