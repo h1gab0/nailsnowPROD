@@ -13,7 +13,6 @@
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\""
   },
   "dependencies": {
-    "@react-oauth/google": "^0.12.2",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "animejs": "^4.2.2",

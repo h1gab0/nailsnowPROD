@@ -1,7 +1,7 @@
 import React from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+import { Link } from 'react-router-dom';
 
-const Hero = ({ particlesContainer, typedElement, handleGoogleSuccess, handleGoogleError }) => {
+const Hero = ({ particlesContainer, typedElement }) => {
   return (
     <section className="hero-bg min-h-screen flex items-center pt-20 relative">
       <div className="particles-bg" id="particles-container" ref={particlesContainer}></div>
@@ -15,7 +15,9 @@ const Hero = ({ particlesContainer, typedElement, handleGoogleSuccess, handleGoo
             Nails Now es una suscripción que permite a sus usuarios la opción de liberar tiempo y optimizar la operación de salones de uñas y belleza mediante una plataforma digital que brinda los siguientes servicios: automatizar citas, controlar inventarios, reportar ganancias y mejorar la experiencia del cliente, todo en una sola herramienta personalizable.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
+            <Link to="/login" className="bg-soft-rose text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-opacity-90 transition-all text-center">
+              Get Started
+            </Link>
             <button className="border-2 border-soft-rose text-soft-rose px-8 py-4 rounded-full font-medium text-lg hover:bg-soft-rose hover:text-white transition-all">
               Ver Video Explicativo
             </button>

@@ -3,6 +3,7 @@ const { JSONFile } = require('lowdb/node');
 const fs = require('fs');
 
 const defaultData = {
+  users: [],
   instances: {
     "default": {
       name: "Nail Scheduler Default",

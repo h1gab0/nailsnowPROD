@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 const { db, getInstanceData } = require('../db.cjs');
 
 // --- Auth ---
@@ -7,6 +8,48 @@ const SUPER_ADMIN_USERNAME = process.env.SUPER_ADMIN_USERNAME;
 const SUPER_ADMIN_PASSWORD = process.env.SUPER_ADMIN_PASSWORD;
 const LONG_SESSION = 24 * 60 * 60 * 1000;
 const SHORT_SESSION = 5 * 60 * 1000;
+
+// User Sign-Up
+router.post('/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+  const users = db.get('users').value();
+  const existingUser = users.find(user => user.email === email);
+
+  if (existingUser) {
+    return res.status(400).json({ message: 'User already exists' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = { id: Date.now().toString(), name, email, password: hashedPassword };
+  db.get('users').push(newUser).write();
+
+  req.session.isAuthenticated = true;
+  req.session.user = { id: newUser.id, name: newUser.name, email: newUser.email };
+  req.session.cookie.maxAge = LONG_SESSION;
+
+  res.status(201).json(req.session.user);
+});
+
+// User Sign-In
+router.post('/signin', async (req, res) => {
+  const { email, password } = req.body;
+  const user = db.get('users').find({ email }).value();
+
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+
+  req.session.isAuthenticated = true;
+  req.session.user = { id: user.id, name: user.name, email: user.email };
+  req.session.cookie.maxAge = LONG_SESSION;
+
+  res.json(req.session.user);
+});
 
 // Super Admin Login
 router.post('/admin/login', (req, res) => {
