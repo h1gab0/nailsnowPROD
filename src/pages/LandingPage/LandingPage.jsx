@@ -9,7 +9,6 @@ import './LandingPage.css';
 
 import Hero from './components/Hero';
 import Features from './components/Features';
-import Demo from './components/Demo';
 import Pricing from './components/Pricing';
 import Testimonials from './components/Testimonials';
 import CTA from './components/CTA';
@@ -240,7 +239,6 @@ const LandingPage = () => {
           </div>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#features" onClick={handleNavClick} className="text-warm-gray hover:text-deep-charcoal transition-colors">Características</a>
-            <a href="#demo" onClick={handleNavClick} className="text-warm-gray hover:text-deep-charcoal transition-colors">Demo</a>
             <a href="#pricing" onClick={handleNavClick} className="text-warm-gray hover:text-deep-charcoal transition-colors">Planes</a>
             <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
           </div>
@@ -265,7 +263,6 @@ const LandingPage = () => {
                     </div>
                     <nav className="space-y-4">
                         <a href="#features" onClick={handleNavClick} className="block text-warm-gray hover:text-deep-charcoal transition-colors">Características</a>
-                        <a href="#demo" onClick={handleNavClick} className="block text-warm-gray hover:text-deep-charcoal transition-colors">Demo</a>
                         <a href="#pricing" onClick={handleNavClick} className="block text-warm-gray hover:text-deep-charcoal transition-colors">Planes</a>
                         <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
                     </nav>
@@ -281,19 +278,6 @@ const LandingPage = () => {
         handleGoogleError={handleGoogleError}
       />
       <Features />
-      <Demo
-        revenueChart={revenueChart}
-        selectedService={selectedService}
-        selectedDate={selectedDate}
-        selectedTime={selectedTime}
-        bookingConfirmed={bookingConfirmed}
-        setSelectedService={setSelectedService}
-        setSelectedDate={setSelectedDate}
-        setSelectedTime={setSelectedTime}
-        handleBookAppointment={handleBookAppointment}
-        getServiceName={getServiceName}
-        getServicePrice={getServicePrice}
-      />
       <Video/>
       <Pricing
         isAnnualBilling={isAnnualBilling}
