@@ -26,7 +26,12 @@ const AuthForm = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        navigate('/');
+        if (isSignUp) {
+          const newUser = await response.json();
+          navigate(`/${newUser.name}`);
+        } else {
+          navigate('/');
+        }
       } else {
         const errorData = await response.json();
         alert(errorData.message);
@@ -106,6 +111,7 @@ const AuthForm = () => {
           <button
             onClick={() => setIsSignUp(!isSignUp)}
             className="font-medium text-indigo-600 hover:text-indigo-500"
+            data-testid="signup-toggle"
           >
             {isSignUp
               ? 'Already have an account? Sign In'
