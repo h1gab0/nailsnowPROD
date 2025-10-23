@@ -91,18 +91,19 @@ const LoginComponent = () => {
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { instanceId } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-      const user = await login(username, password);
+      const user = await login(username, password, instanceId);
 
       if (user.isSuperAdmin) {
         navigate('/super-admin');
       } else {
-        navigate(`/`);
+        navigate(`/${instanceId}/admin`);
       }
     } catch (error) {
       setError(error.message || 'Invalid credentials. Please try again.');
