@@ -12,11 +12,14 @@ import Features from './components/Features';
 import Pricing from './components/Pricing';
 import Testimonials from './components/Testimonials';
 import CTA from './components/CTA';
+import AuthenticatedCTA from './components/AuthenticatedCTA';
 import Footer from './components/Footer';
 import Video from './components/Video';
+import { useAuth } from '../../context/AuthContext';
 
 
 const LandingPage = () => {
+  const { isAuthenticated, user } = useAuth();
   const typedElement = useRef(null);
   const particlesContainer = useRef(null);
   const revenueChart = useRef(null);
@@ -233,7 +236,7 @@ const LandingPage = () => {
         setIsAnnualBilling={setIsAnnualBilling}
       />
       <Testimonials testimonialsSlider={testimonialsSlider} />
-      <CTA />
+      {isAuthenticated && user && user.isSuperAdmin ? <AuthenticatedCTA /> : <CTA />}
       <Footer />
     </div>
   );
