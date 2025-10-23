@@ -68,7 +68,7 @@ export default function App() {
           <Routes>
             <Route element={<InstanceWrapper><AppContent /></InstanceWrapper>}>
                 {/* Super admin routes are top-level and don't have an instanceId */}
-                <Route path="/login" element={<LoginComponent />} />
+                <Route path="/login" element={<UserLogin />} />
                 <Route path="/admin-login" element={<LoginComponent />} />
                 <Route path="/super-admin" element={
                     <ProtectedRoute superAdminOnly={true}>
