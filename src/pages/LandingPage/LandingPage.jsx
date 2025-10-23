@@ -236,7 +236,7 @@ const LandingPage = () => {
         setIsAnnualBilling={setIsAnnualBilling}
       />
       <Testimonials testimonialsSlider={testimonialsSlider} />
-      {isAuthenticated && user && user.isSuperAdmin ? <AuthenticatedCTA /> : <CTA />}
+      {isAuthenticated ? <AuthenticatedCTA /> : <CTA />}
       <Footer />
     </div>
   );
