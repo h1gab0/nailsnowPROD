@@ -86,7 +86,6 @@ const ErrorMessage = styled.div`
 `;
 
 const LoginComponent = () => {
-  const { instanceId } = useParams();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -98,14 +97,12 @@ const LoginComponent = () => {
     setError('');
 
     try {
-      // Pass the instanceId to the login function.
-      // The login function will decide whether to perform a super admin or instance admin login.
-      const user = await login(username, password, instanceId);
+      const user = await login(username, password);
 
       if (user.isSuperAdmin) {
         navigate('/super-admin');
       } else {
-        navigate(`/${user.instanceId}/admin`);
+        navigate(`/`);
       }
     } catch (error) {
       setError(error.message || 'Invalid credentials. Please try again.');
@@ -116,7 +113,7 @@ const LoginComponent = () => {
   return (
     <LoginWrapper>
       <LoginContainer>
-        <Title>{instanceId && instanceId !== 'default' ? `${instanceId} Admin Login` : 'Super Admin Login'}</Title>
+        <Title>Login</Title>
         <Form onSubmit={handleSubmit}>
           <InputGroup>
             <Input
