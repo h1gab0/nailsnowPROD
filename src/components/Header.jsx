@@ -225,6 +225,26 @@ function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const element = document.getElementById(location.state.scrollTo);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location.state]);
+
+  const handleNavClick = useCallback((e, targetId) => {
+    e.preventDefault();
+    const homePath = base || '/';
+    if (location.pathname === homePath) {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate(homePath, { state: { scrollTo: targetId } });
+    }
+    closeMenu();
+  }, [location.pathname, navigate, closeMenu, base]);
+
   const scrollToTop = useCallback((e) => {
     e.preventDefault();
     const homePath = base || '/';
@@ -236,12 +256,6 @@ function Header() {
     closeMenu();
   }, [location.pathname, navigate, closeMenu, base]);
 
-  const handleScheduleClick = useCallback((e) => {
-    e.preventDefault();
-    navigate(`${base}/schedule`);
-    closeMenu();
-  }, [navigate, closeMenu, base]);
-
   return (
     <StyledHeader>
       <Nav>
@@ -252,8 +266,8 @@ function Header() {
           {isMenuOpen ? '✕' : '☰'}
         </MenuButton>
         <NavLinks>
-          <NavLink to={`${base}/features`}>Caracteristicas</NavLink>
-          <NavLink to={`${base}/pricing`}>Planes</NavLink>
+          <NavLink to="#" onClick={(e) => handleNavClick(e, 'features')}>Caracteristicas</NavLink>
+          <NavLink to="#" onClick={(e) => handleNavClick(e, 'pricing')}>Planes</NavLink>
           <ScheduleButton
             to={`${base}/login`}
             aria-label="Sign In"
@@ -273,11 +287,12 @@ function Header() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <MobileNavLink to={`${base}/features`} onClick={closeMenu}>Caracteristicas</MobileNavLink>
-            <MobileNavLink to={`${base}/pricing`} onClick={closeMenu}>Planes</MobileNavLink>
-            <MobileScheduleButton 
+            <MobileNavLink to="#" onClick={(e) => handleNavClick(e, 'features')}>Caracteristicas</MobileNavLink>
+            <MobileNavLink to="#" onClick={(e) => handleNavClick(e, 'pricing')}>Planes</MobileNavLink>
+            <MobileScheduleButton
               to={`${base}/login`}
               aria-label="Sign In"
+              onClick={closeMenu}
             >
               Sign In
             </MobileScheduleButton>
