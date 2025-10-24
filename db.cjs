@@ -40,13 +40,13 @@ const initDb = async () => {
     }
 };                                       
 
-const getInstanceData = async (instanceId) => {
+const getInstanceData = async (instanceId, username = 'admin') => {
     await db.read();
     if (!db.data.instances[instanceId]) {
         db.data.instances[instanceId] = {
-            name: `${instanceId}'s Scheduler`,
+            name: `${username}'s Scheduler`,
             phoneNumber: '',
-            admins: [{ username: 'admin', password: 'password' }],
+            admins: [{ username: username, password: 'password' }],
             coupons: [],
             appointments: [],
             availability: {}
