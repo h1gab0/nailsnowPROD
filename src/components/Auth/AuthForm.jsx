@@ -28,7 +28,7 @@ const AuthForm = () => {
       if (response.ok) {
         if (isSignUp) {
           const newUser = await response.json();
-          navigate(`/${newUser.name}`);
+          navigate(`/${newUser.name}/setup`);
         } else {
           navigate('/');
         }

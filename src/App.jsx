@@ -25,6 +25,7 @@ import CouponPage from './pages/CouponPage';
 import Services from './pages/Services';
 import Gallery from './pages/Gallery';
 import LandingPage from './pages/LandingPage/LandingPage';
+import UserSetup from './pages/UserSetup';
 
 const MainContent = styled.main`
   padding-top: 60px;
@@ -77,6 +78,7 @@ export default function App() {
                 } />
 
                 {/* Instance routes are nested to inherit the instanceId from the URL */}
+                <Route path="/:username/setup" element={<UserSetup />} />
                 <Route path="/:instanceId">
                     <Route index element={<Home />} />
                     <Route path="about" element={<About />} />
