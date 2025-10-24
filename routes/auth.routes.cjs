@@ -23,6 +23,9 @@ router.post('/signup', async (req, res) => {
   const newUser = { id: Date.now().toString(), name, email, password: hashedPassword };
   db.get('users').push(newUser).write();
 
+  // Create an instance for the new user
+  await getInstanceData(newUser.id, newUser.name);
+
   req.session.isAuthenticated = true;
   req.session.user = { id: newUser.id, name: newUser.name, email: newUser.email };
   req.session.cookie.maxAge = LONG_SESSION;
