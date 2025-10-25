@@ -77,9 +77,9 @@ export default function App() {
                     </ProtectedRoute>
                 } />
 
-                {/* Instance routes are nested to inherit the instanceId from the URL */}
+                {/* Instance routes are nested to inherit the username from the URL */}
                 <Route path="/:username/setup" element={<UserSetup />} />
-                <Route path="/:instanceId">
+                <Route path="/:username">
                     <Route index element={<Home />} />
                     <Route path="about" element={<About />} />
                     <Route path="contact" element={<Contact />} />

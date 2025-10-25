@@ -10,7 +10,7 @@ const requireAdmin = (req, res, next) => {
 
 // Middleware to get instance data and attach to request
 const instanceMiddleware = async (req, res, next) => {
-    req.instanceData = await getInstanceData(req.params.instanceId);
+    req.instanceData = await getInstanceData(req.params.username);
     next();
 };
 
