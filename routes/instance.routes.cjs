@@ -26,10 +26,10 @@ router.post('/instances', requireAuth, async (req, res) => {
         return res.status(400).json({ message: 'Instance name and phone number are required.' });
     }
     await db.read();
-    if (db.data.instances[userId]) {
+    if (db.data.instances[username]) {
         return res.status(409).json({ message: 'Instance for this user already exists.' });
     }
-    const instanceData = await getInstanceData(userId, username);
+    const instanceData = await getInstanceData(username, username);
     instanceData.name = name;
     instanceData.phoneNumber = phoneNumber;
     instanceData.userId = userId;
@@ -38,12 +38,12 @@ router.post('/instances', requireAuth, async (req, res) => {
     const adminUser = instanceData.admins[0];
     const messageBody = `Welcome to the platform! Your new instance "${name}" has been created. You can log in with the following credentials:\nUsername: ${adminUser.username}\nPassword: ${adminUser.password}`;
 
-    res.status(201).json({ id: userId, name });
+    res.status(201).json({ id: username, name });
 });                                                                                                                                                                   
                                                                                                                                                                       
-router.get('/instances/:instanceId/stats', requireSuperAdmin, async (req, res) => {
+router.get('/instances/:username/stats', requireSuperAdmin, async (req, res) => {
     await db.read();
-    const instanceData = getInstanceData(req.params.instanceId);
+    const instanceData = getInstanceData(req.params.username);
     const stats = {
         appointments: instanceData.appointments.length,
         coupons: instanceData.coupons.length,
@@ -51,11 +51,11 @@ router.get('/instances/:instanceId/stats', requireSuperAdmin, async (req, res) =
     res.json(stats);
 });
 
-router.get('/instances/:instanceId', async (req, res) => {
+router.get('/instances/:username', async (req, res) => {
     await db.read();
-    const instance = db.data.instances[req.params.instanceId];
+    const instance = db.data.instances[req.params.username];
     if (instance) {
-        res.json({ id: req.params.instanceId, name: instance.name });
+        res.json({ id: req.params.username, name: instance.name });
     } else {
         res.status(404).json({ message: 'Instance not found' });
     }

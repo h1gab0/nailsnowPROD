@@ -25,7 +25,7 @@ app.use(session({
 // API Routes
 app.use('/api', authRoutes);
 app.use('/api', instanceRoutes);
-app.use('/api/:instanceId', dataRoutes);
+app.use('/api/:username', dataRoutes);
 
 
 // Error handling middleware
