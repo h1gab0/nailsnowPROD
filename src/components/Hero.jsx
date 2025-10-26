@@ -158,7 +158,7 @@ function Hero() {
           onClick={handleTitleClick}
           style={{ cursor: 'default' }}
         >
-          {loading ? 'Loading...' : instance?.name || 'Nail Salon Scheduler'}
+          {loading ? 'Loading...' : instance?.name || instanceId}
         </Title>
         <Subtitle variants={itemVariants}>
           Where luxury meets artistry for your hands and feet
