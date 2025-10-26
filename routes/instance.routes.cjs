@@ -18,27 +18,27 @@ router.get('/instances', requireSuperAdmin, async (req, res) => {
 });                                                                                                                                                                   
                                                                                                                                                                       
 router.post('/instances', requireAuth, async (req, res) => {
-    const { name, phoneNumber } = req.body;
+    const { phoneNumber } = req.body;
     const userId = req.session.user.id;
     const username = req.session.user.name;
 
-    if (!name || !phoneNumber) {
-        return res.status(400).json({ message: 'Instance name and phone number are required.' });
+    if (!phoneNumber) {
+        return res.status(400).json({ message: 'Phone number is required.' });
     }
     await db.read();
     if (db.data.instances[username]) {
         return res.status(409).json({ message: 'Instance for this user already exists.' });
     }
     const instanceData = await getInstanceData(username, username);
-    instanceData.name = name;
+    instanceData.name = username;
     instanceData.phoneNumber = phoneNumber;
     instanceData.userId = userId;
     await db.write();
 
     const adminUser = instanceData.admins[0];
-    const messageBody = `Welcome to the platform! Your new instance "${name}" has been created. You can log in with the following credentials:\nUsername: ${adminUser.username}\nPassword: ${adminUser.password}`;
+    const messageBody = `Welcome to the platform! Your new instance "${username}" has been created. You can log in with the following credentials:\nUsername: ${adminUser.username}\nPassword: ${adminUser.password}`;
 
-    res.status(201).json({ id: username, name });
+    res.status(201).json({ id: username, name: username });
 });                                                                                                                                                                   
                                                                                                                                                                       
 router.get('/instances/:username/stats', requireSuperAdmin, async (req, res) => {
