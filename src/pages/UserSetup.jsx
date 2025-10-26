@@ -49,7 +49,7 @@ const Button = styled.button`
 const UserSetup = () => {
     const { username } = useParams();
     const navigate = useNavigate();
-    const [instanceDetails, setInstanceDetails] = useState({ id: username, name: '', phoneNumber: '' });
+    const [instanceDetails, setInstanceDetails] = useState({ id: username, name: username, phoneNumber: '' });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useInstance } from '../context/InstanceContext';
 
 const HeroContainer = styled(motion.section)`
@@ -120,10 +120,15 @@ const itemVariants = {
 function Hero() {
   const { instanceId, instance, loading } = useInstance();
   const navigate = useNavigate();
+  const { username } = useParams();
   const [clickCount, setClickCount] = useState(0);
   const [lastClickTime, setLastClickTime] = useState(0);
 
-  const base = instanceId === 'default' ? '' : `/${instanceId}`;
+  const base = instanceId === 'default' ? '' : `/${username}`;
+
+  useEffect(() => {
+    setClickCount(0);
+  }, [instanceId]);
 
   const handleTitleClick = useCallback(() => {
     const currentTime = Date.now();
