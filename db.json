@@ -1,15 +1,11 @@
 {
+  "users": [],
   "instances": {
     "default": {
       "name": "Nail Scheduler Default",
       "admins": [
         {
           "username": "admin",
-          "password": "password"
-        },
-        {
-          "username": "testuser",
-          "email": "testuser@test.com",
           "password": "password"
         }
       ],
@@ -49,6 +45,5 @@
         }
       }
     }
-  },
-  "users": []
+  }
 }

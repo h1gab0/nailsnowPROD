@@ -49,7 +49,7 @@ const Button = styled.button`
 const UserSetup = () => {
     const { username } = useParams();
     const navigate = useNavigate();
-    const [instanceDetails, setInstanceDetails] = useState({ id: username, name: username, phoneNumber: '' });
+    const [instanceDetails, setInstanceDetails] = useState({ id: username, phoneNumber: '' });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -58,15 +58,15 @@ const UserSetup = () => {
 
     const handleCreateInstance = async (e) => {
         e.preventDefault();
-        if (!instanceDetails.name || !instanceDetails.phoneNumber) {
-            alert('Please provide an instance name and a phone number.');
+        if (!instanceDetails.phoneNumber) {
+            alert('Please provide a phone number.');
             return;
         }
         try {
             const response = await fetch('/api/instances', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(instanceDetails),
+                body: JSON.stringify({ ...instanceDetails, name: username }),
                 credentials: 'include'
             });
             if (response.ok) {
@@ -87,13 +87,6 @@ const UserSetup = () => {
         <SetupContainer>
             <Title>Setup Your Instance</Title>
             <Form onSubmit={handleCreateInstance}>
-                <Input
-                    type="text"
-                    name="name"
-                    placeholder="Instance Name (e.g., Jane's Nail Salon)"
-                    value={instanceDetails.name}
-                    onChange={handleInputChange}
-                />
                 <Input
                     type="text"
                     name="id"
